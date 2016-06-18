@@ -16,8 +16,6 @@ class SequenceProperty extends Property
         array $definition,
         PropertyInterface $parentProperty = null
     ) {
-        $customTypes = $schema->getCustomTypes();
-
         $this->allowedTypes = isset($definition['one_of']) ? $definition['one_of'] : [];
         unset($definition['one_of']);
 
