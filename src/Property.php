@@ -35,8 +35,10 @@ class Property implements PropertyInterface
             }
         } else {
             $value = isset($config[$propName]) ? $config[$propName] : null;
-            if (null === $value && $this->isRequired()) {
-                $errors[] = "Missing required key '$propName'";
+            if (!array_key_exists($propName, $config) && $this->isRequired()) {
+                $errors[] = "Missing required key: '$propName'";
+            } else if (null === $value && $this->isRequired()) {
+                $errors[] = "Missing required value for key: '$propName'";
             } else if ($value !== null) {
                 $errors = $this->validateValue($value);
             }

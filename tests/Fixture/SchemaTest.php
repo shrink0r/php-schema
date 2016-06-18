@@ -2,10 +2,13 @@
 
 // @codeCoverageIgnoreStart
 
-$case001 = require __DIR__.'/SchemaTest_001.php';
+$testcases = [];
+foreach (glob(__DIR__.'/SchemaTest_*.php') as $testcaseFile) {
+    $filename = basename($testcaseFile, '.php');
+    $caseLabel = str_replace('Schematest_', '', $filename);
+    $testcases[$caseLabel] = require $testcaseFile;
+}
 
-return [
-    '001' => $case001,
-];
+return $testcases;
 
 // @codeCoverageIgnoreEnd
