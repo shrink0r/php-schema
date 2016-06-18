@@ -25,6 +25,10 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      */
     public function provideValidateFixtures()
     {
-        return require __DIR__.'/Fixture/SchemaTest.php';
+        return [
+            'schema-1' => require __DIR__.'/Fixture/SchemaTest_001.php',
+            'schema-2' => require __DIR__.'/Fixture/SchemaTest_002.php',
+            'schema-3' => require __DIR__.'/Fixture/SchemaTest_003.php'
+        ];
     }
 }
