@@ -4,7 +4,7 @@ namespace Shrink0r\Configr;
 
 use Shrink0r\Monatic\Maybe;
 
-class Scheme implements SchemeInterface
+class Schema implements SchemaInterface
 {
     protected $parentProperty;
 
@@ -14,24 +14,24 @@ class Scheme implements SchemeInterface
 
     public function __construct(
         $name,
-        array $scheme,
+        array $schema,
         PropertyInterface $parentProperty = null
     ) {
         $this->customTypes = [];
-        $this->type = $scheme['type'];
+        $this->type = $schema['type'];
         $this->parentProperty = $parentProperty;
 
-        $customTypes = isset($scheme['customTypes']) ? $scheme['customTypes'] : [];
+        $customTypes = isset($schema['customTypes']) ? $schema['customTypes'] : [];
         if (is_array($customTypes)) {
             foreach ($customTypes as $name => $definition) {
-                $this->customTypes[$name] = new Scheme($name, $definition, $parentProperty);
+                $this->customTypes[$name] = new Schema($name, $definition, $parentProperty);
             }
         }
-        $properties = isset($scheme['properties']) ? $scheme['properties'] : [];
+        $properties = isset($schema['properties']) ? $schema['properties'] : [];
         if (is_array($properties)) {
             $this->properties = $this->handleProperties($properties);
         } else {
-            throw new \Exception("Missing required key 'properties' within given scheme.");
+            throw new \Exception("Missing required key 'properties' within given schema.");
         }
     }
 

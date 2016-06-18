@@ -1,24 +1,6 @@
 <?php
 
-require __DIR__.'/vendor/autoload.php';
-
-$config = [
-    'transports' => [
-        'sync' => [
-            'class' => SyncnTransport::class
-        ]
-    ],
-    'subscriptions' => [
-        [
-            'transport' => 'sync',
-            'commands' => [
-                'foh.system_account.user.create_user' => [ 'handler' => CrateUserHandler::class ]
-            ]
-        ]
-    ]
-];
-
-$configScheme = [
+$givenSchema = [
     'type' => 'assoc',
     'properties' => [
         'transports' => [
@@ -74,7 +56,39 @@ $configScheme = [
     ]
 ];
 
-$scheme = new Shrink0r\Configr\Scheme('command_bus', $configScheme);
-$errors = $scheme->validate($config);
+$givenConfig = [
+    'transports' => [
+        'sync' => [ 'class' => SyncnTransport::class ]
+    ],
+    'subscriptions' => [
+        [
+            'transport' => 'sync',
+            'commands' => [
+                'foh.system_account.user.create_user' => [ 'handler' => CrateUserHandler::class ]
+            ]
+        ]
+    ]
+];
 
-var_dump($errors);
+$expectedErrors = [
+    'transports' => [
+        ':any_name:' => [
+            'sync' => [ 'class' => [ 'Class \'SyncnTransport\' does not exist.' ] ]
+        ]
+    ],
+    'subscriptions' => [
+        'commands' => [
+            ':any_name:' => [
+                'foh.system_account.user.create_user' => [
+                    'handler' => [ 'Class \'CrateUserHandler\' does not exist.' ]
+                ]
+            ]
+        ]
+    ]
+];
+
+return [
+    'givenSchema' => $givenSchema,
+    'givenConfig' => $givenConfig,
+    'expectedErrors' => $expectedErrors
+];

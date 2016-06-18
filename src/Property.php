@@ -4,7 +4,7 @@ namespace Shrink0r\Configr;
 
 class Property implements PropertyInterface
 {
-    protected $scheme;
+    protected $schema;
 
     protected $name;
 
@@ -12,11 +12,11 @@ class Property implements PropertyInterface
 
     protected $parent;
 
-    public function __construct(Scheme $scheme, $name, array $definition, PropertyInterface $parent = null)
+    public function __construct(SchemaInterface $schema, $name, array $definition, PropertyInterface $parent = null)
     {
         $this->name = $name;
         $this->parent = $parent;
-        $this->scheme = $scheme;
+        $this->schema = $schema;
         $this->required = isset($definition['required']) ? $definition['required'] : true;
     }
 
@@ -72,8 +72,8 @@ class Property implements PropertyInterface
         return $this->required;
     }
 
-    public function getScheme()
+    public function getSchema()
     {
-        return $this->scheme;
+        return $this->schema;
     }
 }

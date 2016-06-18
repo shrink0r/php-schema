@@ -4,11 +4,15 @@ namespace Shrink0r\Configr;
 
 class AssocProperty extends Property
 {
-    protected $childScheme;
+    protected $childSchema;
 
-    public function __construct(Scheme $scheme, $name, array $definition, PropertyInterface $parentProperty = null)
-    {
-        $this->childScheme = new Scheme(
+    public function __construct(
+        SchemaInterface $schema,
+        $name,
+        array $definition,
+        PropertyInterface $parentProperty = null
+    ) {
+        $this->childSchema = new Schema(
             $name.'_type',
             [
                 'type' => 'assoc',
@@ -18,11 +22,11 @@ class AssocProperty extends Property
         );
         unset($definition['properties']);
 
-        parent::__construct($scheme, $name, $definition, $parentProperty);
+        parent::__construct($schema, $name, $definition, $parentProperty);
     }
 
     protected function validateValue($value)
     {
-        return $this->childScheme->validate($value);
+        return $this->childSchema->validate($value);
     }
 }

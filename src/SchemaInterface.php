@@ -2,7 +2,7 @@
 
 namespace Shrink0r\Configr;
 
-interface SchemeInterface
+interface SchemaInterface
 {
 
 }
