@@ -9,7 +9,7 @@ class FqcnProperty extends Property
         $errors = [];
 
         if (!class_exists($value)) {
-            $errors[] = "Class '$value' does not exist.";
+            $errors[] = "class_not_exists";
         }
 
         return $errors;

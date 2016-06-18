@@ -30,14 +30,16 @@ $givenSchema = [
 $givenConfig = [
     'transports' => [
         'sync' => [ 'classs' => 'foobar' ],
-        'async' => [ 'class' => null ]
+        'async' => [ 'class' => null ],
+        'pubsub' => [ 'class' => [ 'foo' => 'bar' ] ]
     ]
 ];
 
 $expectedErrors = [
     'transports' => [
-        'sync' => [ 'class' => [ "Missing required key: 'class'" ] ],
-        'async' => [ 'class' => [ "Missing required value for key: 'class'" ] ]
+        'sync' => [ 'class' => [ "key_missing" ] ],
+        'async' => [ 'class' => [ "value_missing" ] ],
+        'pubsub' => [ 'class' => [ "non_scalar" ] ]
     ]
 ];
 
