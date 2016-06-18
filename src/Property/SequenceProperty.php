@@ -3,6 +3,7 @@
 namespace Shrink0r\Configr\Property;
 
 use Shrink0r\Configr\Error;
+use Shrink0r\Configr\Exception;
 use Shrink0r\Configr\Ok;
 use Shrink0r\Configr\SchemaInterface;
 
@@ -42,7 +43,7 @@ class SequenceProperty extends Property
                             }
                             break;
                         default:
-                            throw new \Exception("Unsupported type given to sequence 'one_of'.");
+                            throw new Exception("Unsupported type given to sequence 'one_of'.");
                     }
                 }
             }
@@ -56,7 +57,7 @@ class SequenceProperty extends Property
         $customTypes = $this->schema->getCustomTypes();
         $typeName = ltrim($typeName, '&');
         if (!isset($customTypes[$typeName])) {
-            throw new \Exception("Unable to resolve '$typeName' to a custom type-definition.");
+            throw new Exception("Unable to resolve '$typeName' to a custom type-definition.");
         }
 
         return $customTypes[$typeName];

@@ -36,7 +36,7 @@ class Schema implements SchemaInterface
         if (is_array($properties)) {
             $this->properties = $this->handleProperties($properties);
         } else {
-            throw new \Exception("Missing required key 'properties' within given schema.");
+            throw new Exception("Missing required key 'properties' within given schema.");
         }
     }
 
@@ -107,7 +107,7 @@ class Schema implements SchemaInterface
                 $property = new FqcnProperty($this, $propertyName, $propertyDef, $this->parentProperty);
                 break;
             default:
-                throw new \Exception("Unsupported prop-type '$propType' given.");
+                throw new Exception("Unsupported prop-type '$propType' given.");
         }
 
         return $property;
