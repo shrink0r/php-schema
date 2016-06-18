@@ -3,8 +3,8 @@
 namespace Shrink0r\Configr;
 
 use Shrink0r\Configr\Property\AssocProperty;
-use Shrink0r\Configr\Property\DynamicProperty;
 use Shrink0r\Configr\Property\FqcnProperty;
+use Shrink0r\Configr\Property\Property;
 use Shrink0r\Configr\Property\PropertyInterface;
 use Shrink0r\Configr\Property\ScalarProperty;
 use Shrink0r\Configr\Property\SequenceProperty;
@@ -83,8 +83,8 @@ class Schema implements SchemaInterface
             case 'scalar':
                 $property = new ScalarProperty($this, $name, $definition, $this->parentProperty);
                 break;
-            case 'dynamic':
-                $property = new DynamicProperty($this, $name, $definition, $this->parentProperty);
+            case 'any':
+                $property = new Property($this, $name, $definition, $this->parentProperty);
                 break;
             case 'assoc':
                 $property = new AssocProperty($this, $name, $definition, $this->parentProperty);

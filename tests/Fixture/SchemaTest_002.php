@@ -17,7 +17,7 @@ $givenSchema = [
                             'type' => 'assoc',
                             'required' => false,
                             'properties' => [
-                                ':any_name:' => [ 'type' => 'dynamic' ]
+                                ':any_name:' => [ 'type' => 'any' ]
                             ]
                         ]
                     ]
