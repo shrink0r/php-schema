@@ -2,7 +2,12 @@
 
 namespace Shrink0r\Configr;
 
-use Shrink0r\Monatic\Maybe;
+use Shrink0r\Configr\Property\AssocProperty;
+use Shrink0r\Configr\Property\DynamicProperty;
+use Shrink0r\Configr\Property\FqcnProperty;
+use Shrink0r\Configr\Property\PropertyInterface;
+use Shrink0r\Configr\Property\ScalarProperty;
+use Shrink0r\Configr\Property\SequenceProperty;
 
 class Schema implements SchemaInterface
 {
@@ -39,17 +44,17 @@ class Schema implements SchemaInterface
     {
         $errors = [];
         foreach ($this->properties as $property) {
-            $propErrors = $property->validate($config);
-            if (!empty($propErrors)) {
+            $result = $property->validate($config);
+            if ($result instanceof Error) {
                 if ($property->getName() === ':any_name:') {
-                    $errors = array_merge($errors, $propErrors);
+                    $errors = array_merge($errors, $result->unwrap());
                 } else {
-                    $errors[$property->getName()] = $propErrors;
+                    $errors[$property->getName()] = $result->unwrap();
                 }
             }
         }
 
-        return $errors;
+        return empty($errors) ? Ok::unit() : Error::unit($errors);
     }
 
     public function getType()

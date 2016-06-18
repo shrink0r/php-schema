@@ -3,6 +3,7 @@
 namespace Shrink0r\Configr\Tests;
 
 use PHPUnit_Framework_TestCase;
+use Shrink0r\Configr\Error;
 use Shrink0r\Configr\Schema;
 
 class SchemaTest extends PHPUnit_Framework_TestCase
@@ -10,12 +11,13 @@ class SchemaTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideValidateFixtures
      */
-    public function testValidate(array $givenSchema, array $givenConfig, array $expectedErrors)
+    public function testValidate(array $givenSchema, array $givenData, array $expectedErrors)
     {
         $schema = new Schema('command_bus', $givenSchema);
-        $resultingErrors = $schema->validate($givenConfig);
+        $result = $schema->validate($givenData);
 
-        $this->assertEquals($expectedErrors, $resultingErrors);
+        $this->assertInstanceOf(Error::class, $result);
+        $this->assertEquals($expectedErrors, $result->unwrap());
     }
 
     /**

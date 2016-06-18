@@ -58,7 +58,7 @@ $givenSchema = [
     ]
 ];
 
-$givenConfig = [
+$givenData = [
     'transports' => [
         'sync' => [ 'class' => SyncnTransport::class ]
     ],
@@ -77,15 +77,17 @@ $expectedErrors = [
         'sync' => [ 'class' => [ 'class_not_exists' ] ]
     ],
     'subscriptions' => [
-        'commands' => [
-            'foh.system_account.user.create_user' => [ 'handler' => [ 'class_not_exists' ] ]
+        '@0' => [
+            'commands' => [
+                'foh.system_account.user.create_user' => [ 'handler' => [ 'class_not_exists' ] ]
+            ]
         ]
     ]
 ];
 
 return [
     'givenSchema' => $givenSchema,
-    'givenConfig' => $givenConfig,
+    'givenData' => $givenData,
     'expectedErrors' => $expectedErrors
 ];
 

@@ -1,6 +1,9 @@
 <?php
 
-namespace Shrink0r\Configr;
+namespace Shrink0r\Configr\Property;
+
+use Shrink0r\Configr\Schema;
+use Shrink0r\Configr\SchemaInterface;
 
 class AssocProperty extends Property
 {

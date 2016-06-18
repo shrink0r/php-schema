@@ -27,7 +27,7 @@ $givenSchema = [
     ]
 ];
 
-$givenConfig = [
+$givenData = [
     'transports' => [
         'sync' => [ 'classs' => 'foobar' ],
         'async' => [ 'class' => null ],
@@ -45,7 +45,7 @@ $expectedErrors = [
 
 return [
     'givenSchema' => $givenSchema,
-    'givenConfig' => $givenConfig,
+    'givenData' => $givenData,
     'expectedErrors' => $expectedErrors
 ];
 

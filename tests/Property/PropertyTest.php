@@ -1,10 +1,11 @@
 <?php
 
-namespace Shrink0r\Configr\Tests;
+namespace Shrink0r\Configr\Tests\Property;
 
-use Shrink0r\Configr\Property;
-use Shrink0r\Configr\SchemaInterface;
 use PHPUnit_Framework_TestCase;
+use Shrink0r\Configr\Ok;
+use Shrink0r\Configr\Property\Property;
+use Shrink0r\Configr\SchemaInterface;
 
 class PropertyTest extends PHPUnit_Framework_TestCase
 {
@@ -31,7 +32,8 @@ class PropertyTest extends PHPUnit_Framework_TestCase
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $property = new Property($mockSchema, 'testProperty', [ 'required' => true ]);
+        $result = $property->validate([ 'testProperty' => 'foobar' ]);
 
-        $this->assertEmpty($property->validate([ 'testProperty' => 'foobar' ]));
+        $this->assertInstanceOf(Ok::class, $result);
     }
 }

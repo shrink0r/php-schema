@@ -1,6 +1,10 @@
 <?php
 
-namespace Shrink0r\Configr;
+namespace Shrink0r\Configr\Property;
+
+use Shrink0r\Configr\Error;
+use Shrink0r\Configr\Ok;
+use Shrink0r\Configr\SchemaInterface;
 
 class Property implements PropertyInterface
 {
@@ -22,15 +26,14 @@ class Property implements PropertyInterface
 
     public function validate(array $config, array $handledKeys = [])
     {
-
         $propName = $this->getName();
-        $errors = [];
 
+        $errors = [];
         if ($propName === ':any_name:') {
             foreach ($config as $key => $value) {
-                $curErrors = $this->validateValue($value);
-                if (!empty($curErrors)) {
-                    $errors[$key] = $curErrors;
+                $result = $this->validateValue($value);
+                if ($result instanceof Error) {
+                    $errors[$key] = $result->unwrap();
                 }
             }
         } else {
@@ -40,18 +43,19 @@ class Property implements PropertyInterface
             } else if (null === $value && $this->isRequired()) {
                 $errors[] = "value_missing";
             } else if ($value !== null) {
-                $errors = $this->validateValue($value);
+                $result = $this->validateValue($value);
+                if ($result instanceof Error) {
+                    $errors = $result->unwrap();
+                }
             }
         }
 
-        return $errors;
+        return empty($errors) ? Ok::unit() : Error::unit($errors);
     }
 
     protected function validateValue($value)
     {
-        $errors = [];
-
-        return $errors;
+        return Ok::unit();
     }
 
     public function getName()
