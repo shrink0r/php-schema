@@ -10,13 +10,23 @@
     convertWarningsToExceptions = "true"
     processIsolation            = "false"
     stopOnFailure               = "false"
-    syntaxCheck                 = "false"
+    syntaxCheck                 = "true"
     bootstrap                   = "vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="Test Suite">
-            <directory>app/lib/</directory>
+        <testsuite name="Configr-Tests">
+            <directory>src/</directory>
             <directory>tests/</directory>
         </testsuite>
     </testsuites>
+
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="coverage-html" target="build/logs/coverage-html"
+            charset="UTF-8"
+            yui="true"
+            highlight="true"
+            lowUpperBound="60"
+            highLowerBound="80"/>
+    </logging>
 </phpunit>
