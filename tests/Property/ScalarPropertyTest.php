@@ -26,7 +26,7 @@ class ScalarPropertyTest extends PHPUnit_Framework_TestCase
 
         $property = new ScalarProperty($mockSchema, 'value', [ 'required' => true ]);
         $result = $property->validate([ 'value' => [ 'foo' => 'bar' ] ]);
-        $expectedErrors = [ 'non_scalar' ];
+        $expectedErrors = [ Error::NON_SCALAR ];
 
         $this->assertInstanceOf(Error::class, $result);
         $this->assertEquals($expectedErrors, $result->unwrap());

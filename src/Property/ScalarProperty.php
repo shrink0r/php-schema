@@ -9,6 +9,6 @@ class ScalarProperty extends Property
 {
     protected function validateValue($value)
     {
-        return is_scalar($value) ? Ok::unit() : Error::unit([ "non_scalar" ]);
+        return is_scalar($value) ? Ok::unit() : Error::unit([ Error::NON_SCALAR ]);
     }
 }

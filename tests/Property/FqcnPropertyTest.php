@@ -26,7 +26,7 @@ class FqcnPropertyTest extends PHPUnit_Framework_TestCase
 
         $property = new FqcnProperty($mockSchema, 'class', [ 'required' => true ]);
         $result = $property->validate([ 'class' => Foobar::class ]);
-        $expectedErrors = [ 'class_not_exists' ];
+        $expectedErrors = [ Error::CLASS_NOT_EXISTS ];
 
         $this->assertInstanceOf(Error::class, $result);
         $this->assertEquals($expectedErrors, $result->unwrap());

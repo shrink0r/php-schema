@@ -74,12 +74,12 @@ $givenData = [
 
 $expectedErrors = [
     'transports' => [
-        'sync' => [ 'class' => [ 'class_not_exists' ] ]
+        'sync' => [ 'class' => [ Shrink0r\Configr\Error::CLASS_NOT_EXISTS ] ]
     ],
     'subscriptions' => [
         '@0' => [
             'commands' => [
-                'foh.system_account.user.create_user' => [ 'handler' => [ 'class_not_exists' ] ]
+                'foh.system_account.user.create_user' => [ 'handler' => [ Shrink0r\Configr\Error::CLASS_NOT_EXISTS ] ]
             ]
         ]
     ]

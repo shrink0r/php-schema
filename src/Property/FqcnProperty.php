@@ -9,6 +9,6 @@ class FqcnProperty extends Property
 {
     protected function validateValue($value)
     {
-        return class_exists($value) || interface_exists($value) ? Ok::unit() : Error::unit([ "class_not_exists" ]);
+        return class_exists($value) || interface_exists($value) ? Ok::unit() : Error::unit([ Error::CLASS_NOT_EXISTS ]);
     }
 }

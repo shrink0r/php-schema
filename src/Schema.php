@@ -13,16 +13,15 @@ class Schema implements SchemaInterface
 {
     protected $parentProperty;
 
-    protected $properties;
+    protected $properties = [];
 
-    protected $customTypes;
+    protected $customTypes = [];
 
     public function __construct(
         $name,
         array $schema,
         PropertyInterface $parentProperty = null
     ) {
-        $this->customTypes = [];
         $this->type = $schema['type'];
         $this->parentProperty = $parentProperty;
 
@@ -32,9 +31,12 @@ class Schema implements SchemaInterface
                 $this->customTypes[$name] = new Schema($name, $definition, $parentProperty);
             }
         }
+
         $properties = isset($schema['properties']) ? $schema['properties'] : [];
         if (is_array($properties)) {
-            $this->properties = $this->handleProperties($properties);
+            foreach ($properties as $name => $definition) {
+                $this->properties[] = $this->createProperty($name, $definition);
+            }
         } else {
             throw new Exception("Missing required key 'properties' within given schema.");
         }
@@ -72,42 +74,29 @@ class Schema implements SchemaInterface
         return $this->properties;
     }
 
-    protected function handleProperties(array $propertyDefs)
+    protected function createProperty($name, array $definition)
     {
-        $properties = [];
-        foreach ($propertyDefs as $propertyName => $propertyDef) {
-            if ($property = $this->createProperty($propertyName, $propertyDef)) {
-                $properties[] = $property;
-            }
-        }
+        $type = $definition['type'];
+        unset($definition['type']);
 
-        return $properties;
-    }
-
-    protected function createProperty($propertyName, array $propertyDef)
-    {
-        $property = null;
-        $propType = $propertyDef['type'];
-        unset($propertyDef['type']);
-
-        switch ($propType) {
+        switch ($type) {
             case 'scalar':
-                $property = new ScalarProperty($this, $propertyName, $propertyDef, $this->parentProperty);
+                $property = new ScalarProperty($this, $name, $definition, $this->parentProperty);
                 break;
             case 'dynamic':
-                $property = new DynamicProperty($this, $propertyName, $propertyDef, $this->parentProperty);
+                $property = new DynamicProperty($this, $name, $definition, $this->parentProperty);
                 break;
             case 'assoc':
-                $property = new AssocProperty($this, $propertyName, $propertyDef, $this->parentProperty);
+                $property = new AssocProperty($this, $name, $definition, $this->parentProperty);
                 break;
             case 'sequence':
-                $property = new SequenceProperty($this, $propertyName, $propertyDef, $this->parentProperty);
+                $property = new SequenceProperty($this, $name, $definition, $this->parentProperty);
                 break;
             case 'fqcn':
-                $property = new FqcnProperty($this, $propertyName, $propertyDef, $this->parentProperty);
+                $property = new FqcnProperty($this, $name, $definition, $this->parentProperty);
                 break;
             default:
-                throw new Exception("Unsupported prop-type '$propType' given.");
+                throw new Exception("Unsupported prop-type '$type' given.");
         }
 
         return $property;
