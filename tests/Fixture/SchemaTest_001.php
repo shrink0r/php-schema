@@ -72,17 +72,11 @@ $givenConfig = [
 
 $expectedErrors = [
     'transports' => [
-        ':any_name:' => [
-            'sync' => [ 'class' => [ 'Class \'SyncnTransport\' does not exist.' ] ]
-        ]
+        'sync' => [ 'class' => [ 'Class \'SyncnTransport\' does not exist.' ] ]
     ],
     'subscriptions' => [
         'commands' => [
-            ':any_name:' => [
-                'foh.system_account.user.create_user' => [
-                    'handler' => [ 'Class \'CrateUserHandler\' does not exist.' ]
-                ]
-            ]
+            'foh.system_account.user.create_user' => [ 'handler' => [ 'Class \'CrateUserHandler\' does not exist.' ] ]
         ]
     ]
 ];

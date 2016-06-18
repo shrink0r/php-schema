@@ -41,7 +41,11 @@ class Schema implements SchemaInterface
         foreach ($this->properties as $property) {
             $propErrors = $property->validate($config);
             if (!empty($propErrors)) {
-                $errors[$property->getName()] = $propErrors;
+                if ($property->getName() === ':any_name:') {
+                    $errors = array_merge($errors, $propErrors);
+                } else {
+                    $errors[$property->getName()] = $propErrors;
+                }
             }
         }
 
