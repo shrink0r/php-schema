@@ -6,4 +6,4 @@ Lib to validate config arrays.
 [![Build Status](https://travis-ci.org/shrink0r/configr.svg?branch=master)](https://travis-ci.org/shrink0r/configr)
 [![Coverage Status](https://coveralls.io/repos/github/shrink0r/configr/badge.svg?branch=master)](https://coveralls.io/github/shrink0r/configr?branch=master)
 [![Code Climate](https://codeclimate.com/github/shrink0r/configr/badges/gpa.svg)](https://codeclimate.com/github/shrink0r/configr)
-[![Dependency Status](https://www.versioneye.com/user/projects/5764ae6f0735400035b95235/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5764ae6f0735400035b95235)
+[![Dependency Status](https://www.versioneye.com/user/projects/5764ae7f0735400043c1be4f/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5764ae7f0735400043c1be4f)
