@@ -1,5 +1,7 @@
 <?php
 
+// @codeCoverageIgnoreStart
+
 $givenSchema = [
     'type' => 'assoc',
     'properties' => [
@@ -86,3 +88,5 @@ return [
     'givenConfig' => $givenConfig,
     'expectedErrors' => $expectedErrors
 ];
+
+// @codeCoverageIgnoreEnd

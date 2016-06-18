@@ -18,6 +18,9 @@ class SchemaTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedErrors, $resultingErrors);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function provideValidateFixtures()
     {
         return require __DIR__.'/Fixture/SchemaTest.php';
