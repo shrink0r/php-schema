@@ -52,7 +52,7 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
 
         $property = new SequenceProperty($mockSchema, 'seq-value', [ 'required' => true, 'one_of' => [ '&moep' ] ]);
         $property->validate([ 'seq-value' => [ 23 ] ]);
-    }
+    } // @codeCoverageIgnore
 
     public function testInvalidPropertyType()
     {
@@ -63,5 +63,5 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
 
         $property = new SequenceProperty($mockSchema, 'seq-value', [ 'required' => true, 'one_of' => [ 'moep' ] ]);
         $property->validate([ 'seq-value' => [ 23 ] ]);
-    }
+    } // @codeCoverageIgnore
 }

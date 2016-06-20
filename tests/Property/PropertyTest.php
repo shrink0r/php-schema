@@ -9,12 +9,15 @@ use Shrink0r\Configr\SchemaInterface;
 
 class PropertyTest extends PHPUnit_Framework_TestCase
 {
-    public function testGetName()
+    public function testGetters()
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $property = new Property($mockSchema, 'testProperty', [ 'required' => true ]);
 
         $this->assertEquals('testProperty', $property->getName());
+        $this->assertNull($property->getParent());
+        $this->assertFalse($property->hasParent());
+        $this->assertEquals($mockSchema, $property->getSchema());
     }
 
     public function testIsRequired()

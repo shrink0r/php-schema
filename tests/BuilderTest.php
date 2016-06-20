@@ -131,14 +131,19 @@ class BuilderTest extends PHPUnit_Framework_TestCase
         $builder = new Builder;
         $builder
             ->foo
-                ->bar('foobar!')
+                ->bar
+                    ->greetings('hello world!')
+                ->end()
             ->end();
-        $this->assertEquals('foobar!', $builder->foo->valueOf('bar'));
+        $this->assertEquals('hello world!', $builder->foo->bar->valueOf('greetings'));
 
         $builder = new Builder;
         $builder
             ->foo
-                ->bar('foobar!');
-        $this->assertEquals('foobar!', $builder->valueOf('bar'));
+                ->bar
+                    ->greetings('hello world!')
+                ->end();
+
+        $this->assertEquals('hello world!', $builder->bar->valueOf('greetings'));
     }
 }

@@ -53,7 +53,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
                 'street' => [ 'type' => 'foo' ]
             ]
         ]);
-    }
+    } // @codeCoverageIgnore
 
     public function testMissingPropertiesKey()
     {
@@ -61,7 +61,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
         $this->expectExceptionMessage("Missing valid value for 'properties' key within given schema.");
 
         new Schema('address', [ 'type' => 'assoc' ]);
-    }
+    } // @codeCoverageIgnore
 
     /**
      * @codeCoverageIgnore
