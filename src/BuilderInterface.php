@@ -7,4 +7,6 @@ use ArrayAccess;
 interface BuilderInterface extends ArrayAccess
 {
     public function build(array $defaults = []);
+
+    public function end();
 }

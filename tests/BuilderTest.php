@@ -10,7 +10,7 @@ use Shrink0r\Configr\SchemaInterface;
 
 class BuilderTest extends PHPUnit_Framework_TestCase
 {
-    public function testWithoutSchema()
+    public function testBuildWithoutSchema()
     {
         $builder = new Builder;
         $result = $builder
@@ -44,7 +44,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedData, $result->unwrap());
     }
 
-    public function testWithSchemaOk()
+    public function testBuildOk()
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $mockSchema->expects($this->once())
@@ -83,7 +83,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedData, $result->unwrap());
     }
 
-    public function testWithSchemaError()
+    public function testBuildError()
     {
         $expectedErrors = [ 'lastname' => 'missing_key' ];
 
@@ -98,5 +98,26 @@ class BuilderTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Error::class, $result);
         $this->assertEquals($expectedErrors, $result->unwrap());
+    }
+
+    public function testOffsetSetAndGet()
+    {
+        $builder = new Builder;
+        $builder->foo->bar = 'foobar!';
+        $builder['foo']['greetings'] = 'hello world!';
+
+        $this->assertEquals('foobar!', $builder->foo->valueOf('bar'));
+        $this->assertEquals('foobar!', $builder['foo']->valueOf('bar'));
+    }
+
+    public function testEnd()
+    {
+        $builder = new Builder;
+        $builder
+            ->foo
+                ->bar('foobar!')
+            ->end();
+
+        $this->assertEquals('foobar!', $builder->foo->valueOf('bar'));
     }
 }

@@ -38,9 +38,12 @@ class Builder implements BuilderInterface
         return $result;
     }
 
-    public function valueOf($key)
+    public function valueOf($key = null)
     {
-        return isset($this->valuePtr[$key]) ? $this->valuePtr[$key] : null;
+        $value = isset($this->valuePtr[$key]) ? $this->valuePtr[$key] : null;
+        $this->rewind();
+
+        return $value;
     }
 
     public function __get($key)
@@ -91,7 +94,7 @@ class Builder implements BuilderInterface
         return $this;
     }
 
-    public function popPath()
+    public function end()
     {
         $valuePath = $this->valuePath;
         $valuePtr = $this->valuePtr;
