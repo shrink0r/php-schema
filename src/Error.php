@@ -10,6 +10,8 @@ class Error implements ResultInterface
 
     const NON_SCALAR = 'non_scalar';
 
+    const NON_ARRAY = 'non_array';
+
     const CLASS_NOT_EXISTS = 'class_not_exists';
 
     private $errors;

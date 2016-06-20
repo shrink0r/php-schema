@@ -4,7 +4,7 @@ namespace Shrink0r\Configr;
 
 class Ok implements ResultInterface
 {
-    private $config;
+    private $data;
 
     public static function unit($value = null)
     {
@@ -13,13 +13,13 @@ class Ok implements ResultInterface
         return new $class($value ?: []);
     }
 
-    public function __construct(array $config)
+    public function __construct(array $data)
     {
-        $this->config = $config;
+        $this->data = $data;
     }
 
     public function unwrap()
     {
-        return $this->config;
+        return $this->data;
     }
 }

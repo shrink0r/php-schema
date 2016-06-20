@@ -35,7 +35,7 @@ $givenData = [
 ];
 
 $expectedErrors = [
-    'tags' => [ '@1' => Shrink0r\Configr\Error::NON_SCALAR ],
+    'tags' => [ 1 => [ Shrink0r\Configr\Error::NON_SCALAR ] ],
     'address' => [
         'city' => [ Shrink0r\Configr\Error::NON_SCALAR ]
     ]

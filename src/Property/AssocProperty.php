@@ -2,6 +2,7 @@
 
 namespace Shrink0r\Configr\Property;
 
+use Shrink0r\Configr\Error;
 use Shrink0r\Configr\Schema;
 use Shrink0r\Configr\SchemaInterface;
 
@@ -30,6 +31,10 @@ class AssocProperty extends Property
 
     protected function validateValue($value)
     {
-        return $this->childSchema->validate($value);
+        if (is_array($value)) {
+            return $this->childSchema->validate($value);
+        } else {
+            return Error::unit([ Error::NON_ARRAY ]);
+        }
     }
 }

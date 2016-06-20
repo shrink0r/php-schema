@@ -28,24 +28,34 @@ class SequenceProperty extends Property
         $errors = [];
 
         foreach ($value as $pos => $item) {
-            foreach ($this->allowedTypes as $allowedType) {
+            $schemaMatched = false;
+            for ($n = 0; $n < count($this->allowedTypes) && !$schemaMatched; $n++) {
+                $allowedType = $this->allowedTypes[$n];
+                $itemErrors = [];
                 if (preg_match('/^&/', $allowedType)) {
                     $schema = $this->getCustomType($allowedType);
                     $result = $schema->validate($item);
                     if ($result instanceof Error) {
-                        $errors["@$pos"] = $result->unwrap();
+                        $itemErrors = $result->unwrap();
+                    } else {
+                        $schemaMatched = true;
                     }
                 } else {
-                    switch ($allowedType) {
-                        case 'scalar':
-                            if (!is_scalar($item)) {
-                                $errors["@$pos"] = 'non_scalar';
-                            }
-                            break;
-                        default:
-                            throw new Exception("Unsupported type given to sequence 'one_of'.");
+                    $propName = $this->getName().'_item';
+                    $itemProperty = $this->createProperty(
+                        $propName,
+                        [ 'type' => $allowedType, 'required' => true ]
+                    );
+                    $result = $itemProperty->validate([ $propName => $item ]);
+                    if ($result instanceof Error) {
+                        $itemErrors = $result->unwrap();
+                    } else {
+                        $schemaMatched = true;
                     }
                 }
+            }
+            if (!$schemaMatched) {
+                $errors[$pos] = $itemErrors;
             }
         }
 
@@ -61,5 +71,27 @@ class SequenceProperty extends Property
         }
 
         return $customTypes[$typeName];
+    }
+
+    protected function createProperty($name, array $definition)
+    {
+        $type = $definition['type'];
+        unset($definition['type']);
+
+        switch ($type) {
+            case 'scalar':
+                $property = new ScalarProperty($this->schema, $name, $definition, $this);
+                break;
+            case 'any':
+                $property = new Property($this->schema, $name, $definition, $this);
+                break;
+            case 'fqcn':
+                $property = new FqcnProperty($this->schema, $name, $definition, $this);
+                break;
+            default:
+                throw new Exception("Unsupported prop-type '$type' given.");
+        }
+
+        return $property;
     }
 }
