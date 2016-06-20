@@ -89,7 +89,7 @@ class SequenceProperty extends Property
                 $property = new FqcnProperty($this->schema, $name, $definition, $this);
                 break;
             default:
-                throw new Exception("Unsupported prop-type '$type' given.");
+                throw new Exception("Unsupported property-type '$type' given.");
         }
 
         return $property;

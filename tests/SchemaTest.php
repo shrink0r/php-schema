@@ -4,6 +4,7 @@ namespace Shrink0r\Configr\Tests;
 
 use PHPUnit_Framework_TestCase;
 use Shrink0r\Configr\Error;
+use Shrink0r\Configr\Exception;
 use Shrink0r\Configr\Schema;
 
 class SchemaTest extends PHPUnit_Framework_TestCase
@@ -18,6 +19,48 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Error::class, $result);
         $this->assertEquals($expectedErrors, $result->unwrap());
+    }
+
+    public function testGetters()
+    {
+        $schema = new Schema('address', [
+            'type' => 'assoc',
+            'properties' => [
+                'street' => [ 'type' => 'scalar' ],
+                'zipcode' => [ 'type' => 'scalar' ],
+                'coords' => [
+                    'type' => 'assoc',
+                    'properties' => [
+                        'lon' => [ 'type' => 'scalar' ],
+                        'lat' => [ 'type' => 'scalar' ]
+                    ]
+                ]
+            ]
+        ]);
+
+        $this->assertCount(3, $schema->getProperties());
+        $this->assertEquals('assoc', $schema->getType());
+    }
+
+    public function testInvalidPropertyType()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("Unsupported property-type 'foo' given.");
+
+        new Schema('address', [
+            'type' => 'assoc',
+            'properties' => [
+                'street' => [ 'type' => 'foo' ]
+            ]
+        ]);
+    }
+
+    public function testMissingPropertiesKey()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("Missing valid value for 'properties' key within given schema.");
+
+        new Schema('address', [ 'type' => 'assoc' ]);
     }
 
     /**

@@ -110,6 +110,22 @@ class BuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foobar!', $builder['foo']->valueOf('bar'));
     }
 
+    public function testOffsetExistsAndUnset()
+    {
+        $builder = new Builder;
+        $builder->foo->bar = 'foobar!';
+        $builder['foo']['greetings'] = 'hello world!';
+        if (isset($builder['foo']['greetings'])) {
+            unset($builder['foo']['greetings']);
+        }
+        $this->assertEquals('foobar!', $builder['foo']->valueOf('bar'));
+        $this->assertNull($builder['foo']->valueOf('greetings'));
+
+        $result = $builder->build();
+        $this->assertInstanceOf(Ok::class, $result);
+        $this->assertEquals([ 'foo' => [ 'bar' => 'foobar!' ] ], $result->unwrap());
+    }
+
     public function testEnd()
     {
         $builder = new Builder;

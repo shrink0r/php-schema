@@ -32,13 +32,13 @@ class Schema implements SchemaInterface
             }
         }
 
-        $properties = isset($schema['properties']) ? $schema['properties'] : [];
+        $properties = isset($schema['properties']) ? $schema['properties'] : null;
         if (is_array($properties)) {
             foreach ($properties as $name => $definition) {
                 $this->properties[] = $this->createProperty($name, $definition);
             }
         } else {
-            throw new Exception("Missing required key 'properties' within given schema.");
+            throw new Exception("Missing valid value for 'properties' key within given schema.");
         }
     }
 
@@ -96,7 +96,7 @@ class Schema implements SchemaInterface
                 $property = new FqcnProperty($this, $name, $definition, $this->parentProperty);
                 break;
             default:
-                throw new Exception("Unsupported prop-type '$type' given.");
+                throw new Exception("Unsupported property-type '$type' given.");
         }
 
         return $property;

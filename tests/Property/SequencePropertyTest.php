@@ -4,6 +4,7 @@ namespace Shrink0r\Configr\Tests\Property;
 
 use PHPUnit_Framework_TestCase;
 use Shrink0r\Configr\Error;
+use Shrink0r\Configr\Exception;
 use Shrink0r\Configr\Ok;
 use Shrink0r\Configr\Property\SequenceProperty;
 use Shrink0r\Configr\SchemaInterface;
@@ -30,5 +31,37 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Error::class, $result);
         $this->assertEquals($expectedErrors, $result->unwrap());
+    }
+
+    public function testValidateAnyOk()
+    {
+        $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+
+        $property = new SequenceProperty($mockSchema, 'seq-value', [ 'required' => true, 'one_of' => [ 'any' ] ]);
+        $result = $property->validate([ 'seq-value' => [ 23, 'foobar', [ 'foo', 'bar' ] ] ]);
+
+        $this->assertInstanceOf(Ok::class, $result);
+    }
+
+    public function testInvalidCustomType()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("Unable to resolve 'moep' to a custom type-definition.");
+
+        $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+
+        $property = new SequenceProperty($mockSchema, 'seq-value', [ 'required' => true, 'one_of' => [ '&moep' ] ]);
+        $property->validate([ 'seq-value' => [ 23 ] ]);
+    }
+
+    public function testInvalidPropertyType()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("Unsupported property-type 'moep' given.");
+
+        $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+
+        $property = new SequenceProperty($mockSchema, 'seq-value', [ 'required' => true, 'one_of' => [ 'moep' ] ]);
+        $property->validate([ 'seq-value' => [ 23 ] ]);
     }
 }

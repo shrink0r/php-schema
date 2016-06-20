@@ -38,7 +38,7 @@ class Builder implements BuilderInterface
         return $result;
     }
 
-    public function valueOf($key = null)
+    public function valueOf($key)
     {
         $value = isset($this->valuePtr[$key]) ? $this->valuePtr[$key] : null;
         $this->rewind();
@@ -59,7 +59,10 @@ class Builder implements BuilderInterface
 
     public function offsetExists($key)
     {
-        return isset($this->valuePtr[$key]);
+        $exists = isset($this->valuePtr[$key]);
+        $this->rewind();
+
+        return $exists;
     }
 
     public function offsetGet($key)
@@ -70,6 +73,8 @@ class Builder implements BuilderInterface
     public function offsetSet($key, $value)
     {
         $this->{$key} = $value;
+
+        return $this;
     }
 
     public function offsetUnset($key)
@@ -77,6 +82,8 @@ class Builder implements BuilderInterface
         if (isset($this->valuePtr[$key])) {
             unset($this->valuePtr[$key]);
         }
+
+        $this->rewind();
     }
 
     public function __set($key, $value)
@@ -113,5 +120,7 @@ class Builder implements BuilderInterface
     {
         $this->valuePath = [];
         $this->valuePtr = &$this->data;
+
+        return $this;
     }
 }
