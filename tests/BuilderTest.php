@@ -133,7 +133,12 @@ class BuilderTest extends PHPUnit_Framework_TestCase
             ->foo
                 ->bar('foobar!')
             ->end();
-
         $this->assertEquals('foobar!', $builder->foo->valueOf('bar'));
+
+        $builder = new Builder;
+        $builder
+            ->foo
+                ->bar('foobar!');
+        $this->assertEquals('foobar!', $builder->valueOf('bar'));
     }
 }
