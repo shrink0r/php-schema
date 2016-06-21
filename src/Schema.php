@@ -15,14 +15,31 @@ use Shrink0r\Configr\Property\ScalarProperty;
 use Shrink0r\Configr\Property\SequenceProperty;
 use Shrink0r\Configr\Property\StringProperty;
 
+/**
+ * Default implementation of the SchemaInterface.
+ */
 class Schema implements SchemaInterface
 {
+    /**
+     * @var PropertyInterface $parentProperty
+     */
     protected $parentProperty;
 
+    /**
+     * @var array $properties An array of PropertyInterface
+     */
     protected $properties = [];
 
+    /**
+     * @var array $customTypes An array of SchemaInterface
+     */
     protected $customTypes = [];
 
+    /**
+     * @param string $name The name of the schema.
+     * @param array $schema The schema definition.
+     * @param PropertyInterface $parentProperty If created below a prop (assoc, etc.) this will hold that property.
+     */
     public function __construct(
         $name,
         array $schema,
@@ -48,6 +65,9 @@ class Schema implements SchemaInterface
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function validate(array $config)
     {
         $errors = [];
@@ -65,21 +85,38 @@ class Schema implements SchemaInterface
         return empty($errors) ? Ok::unit() : Error::unit($errors);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getType()
     {
         return $this->type;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCustomTypes()
     {
         return $this->customTypes;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getProperties()
     {
         return $this->properties;
     }
 
+    /**
+     * Create a property from the give property definition.
+     *
+     * @param string $name
+     * @param array $definition
+     *
+     * @return PropertyInterface
+     */
     protected function createProperty($name, array $definition)
     {
         $type = $definition['type'];
