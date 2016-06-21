@@ -30,7 +30,7 @@ class ChoiceProperty extends Property
      *
      * @return ResultInterface
      */
-    protected function validateValue($value)
+    public function validate($value)
     {
         return in_array($value, $this->choices) ? Ok::unit() : Error::unit([ Error::INVALID_CHOICE ]);
     }

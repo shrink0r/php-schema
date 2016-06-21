@@ -23,7 +23,7 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
                 'one_of' => [ 'int', 'string', 'float', 'bool' ]
             ]
         );
-        $result = $property->validate([ 'value' => [ true, 23, 42.0, 'foo' ] ]);
+        $result = $property->validate([ true, 23, 42.0, 'foo' ]);
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -33,7 +33,7 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'fqcn' ] ]);
-        $result = $property->validate([ 'value' => [ SequenceProperty::class, TheVoid::class ] ]);
+        $result = $property->validate([ SequenceProperty::class, TheVoid::class ]);
         $expectedErrors = [ 1 => [ Error::CLASS_NOT_EXISTS ] ];
 
         $this->assertInstanceOf(Error::class, $result);
@@ -45,7 +45,7 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'fqcn' ] ]);
-        $result = $property->validate([ 'value' => 'meh' ]);
+        $result = $property->validate('meh');
         $expectedErrors = [ Error::NON_ARRAY ];
 
         $this->assertInstanceOf(Error::class, $result);
@@ -57,7 +57,7 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'any' ] ]);
-        $result = $property->validate([ 'value' => [ 23, 'foobar', [ 'foo', 'bar' ] ] ]);
+        $result = $property->validate([ 23, 'foobar', [ 'foo', 'bar' ] ]);
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -70,7 +70,7 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ '&moep' ] ]);
-        $property->validate([ 'value' => [ 23 ] ]);
+        $property->validate([ 23 ]);
     } // @codeCoverageIgnore
 
     public function testInvalidPropertyType()
@@ -81,6 +81,6 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'moep' ] ]);
-        $property->validate([ 'value' => [ 23 ] ]);
+        $property->validate([ 23 ]);
     } // @codeCoverageIgnore
 }

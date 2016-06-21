@@ -14,7 +14,7 @@ class FqcnProperty extends Property
      *
      * @return ResultInterface
      */
-    protected function validateValue($value)
+    public function validate($value)
     {
         return class_exists($value) || interface_exists($value) ? Ok::unit() : Error::unit([ Error::CLASS_NOT_EXISTS ]);
     }

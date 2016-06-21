@@ -15,7 +15,7 @@ class StringPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new StringProperty($mockSchema, 'value', [ 'required' => true ]);
-        $result = $property->validate([ 'value' => 'hello world!' ]);
+        $result = $property->validate('hello world!');
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -25,7 +25,7 @@ class StringPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new StringProperty($mockSchema, 'value', [ 'required' => true ]);
-        $result = $property->validate([ 'value' => 23 ]);
+        $result = $property->validate(23);
         $expectedErrors = [ Error::NON_STRING ];
 
         $this->assertInstanceOf(Error::class, $result);

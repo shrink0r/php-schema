@@ -15,7 +15,7 @@ class ChoicePropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new ChoiceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'foo', 'bar' ] ]);
-        $result = $property->validate([ 'value' => 'foo' ]);
+        $result = $property->validate('foo');
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -25,7 +25,7 @@ class ChoicePropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new ChoiceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'foo', 'bar' ] ]);
-        $result = $property->validate([ 'value' => 'boo!' ]);
+        $result = $property->validate('boo!');
         $expectedErrors = [ Error::INVALID_CHOICE ];
 
         $this->assertInstanceOf(Error::class, $result);

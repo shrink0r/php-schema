@@ -35,7 +35,7 @@ class PropertyTest extends PHPUnit_Framework_TestCase
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $property = new Property($mockSchema, 'testProperty', [ 'required' => true ]);
-        $result = $property->validate([ 'testProperty' => 'foobar' ]);
+        $result = $property->validate('foobar');
 
         $this->assertInstanceOf(Ok::class, $result);
     }

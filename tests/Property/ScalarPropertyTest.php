@@ -15,7 +15,7 @@ class ScalarPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new ScalarProperty($mockSchema, 'value', [ 'required' => true ]);
-        $result = $property->validate([ 'value' => 23 ]);
+        $result = $property->validate(23);
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -25,7 +25,7 @@ class ScalarPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new ScalarProperty($mockSchema, 'value', [ 'required' => true ]);
-        $result = $property->validate([ 'value' => [ 'foo' => 'bar' ] ]);
+        $result = $property->validate([ 'foo' => 'bar' ]);
         $expectedErrors = [ Error::NON_SCALAR ];
 
         $this->assertInstanceOf(Error::class, $result);

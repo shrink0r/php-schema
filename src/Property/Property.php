@@ -24,36 +24,7 @@ class Property implements PropertyInterface
         $this->required = isset($definition['required']) ? $definition['required'] : true;
     }
 
-    public function validate(array $config, array $handledKeys = [])
-    {
-        $propName = $this->getName();
-
-        $errors = [];
-        if ($propName === ':any_name:') {
-            foreach ($config as $key => $value) {
-                $result = $this->validateValue($value);
-                if ($result instanceof Error) {
-                    $errors[$key] = $result->unwrap();
-                }
-            }
-        } else {
-            $value = isset($config[$propName]) ? $config[$propName] : null;
-            if (!array_key_exists($propName, $config) && $this->isRequired()) {
-                $errors[] = Error::MISSING_KEY;
-            } else if (null === $value && $this->isRequired()) {
-                $errors[] = Error::MISSING_VALUE;
-            } else if ($value !== null) {
-                $result = $this->validateValue($value);
-                if ($result instanceof Error) {
-                    $errors = $result->unwrap();
-                }
-            }
-        }
-
-        return empty($errors) ? Ok::unit() : Error::unit($errors);
-    }
-
-    protected function validateValue($value)
+    public function validate($value)
     {
         return Ok::unit();
     }

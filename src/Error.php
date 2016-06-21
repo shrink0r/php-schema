@@ -50,7 +50,7 @@ class Error implements ResultInterface
     /**
      * @const INVALID_CHOICE Indicates that a choice expectation has not been met.
      */
-    const INVALID_CHOICE = 'non_array';
+    const INVALID_CHOICE = 'invalid_choice';
 
     /**
      * @const INVALID_CHOICE Indicates that a provided class value points to a non-existant class.

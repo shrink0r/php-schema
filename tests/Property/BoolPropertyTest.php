@@ -15,7 +15,7 @@ class BoolPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new BoolProperty($mockSchema, 'value', [ 'required' => true ]);
-        $result = $property->validate([ 'value' => false ]);
+        $result = $property->validate(false);
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -25,7 +25,7 @@ class BoolPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new BoolProperty($mockSchema, 'value', [ 'required' => true ]);
-        $result = $property->validate([ 'value' => 'boo!' ]);
+        $result = $property->validate('boo!');
         $expectedErrors = [ Error::NON_BOOL ];
 
         $this->assertInstanceOf(Error::class, $result);

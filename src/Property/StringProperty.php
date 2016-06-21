@@ -14,7 +14,7 @@ class StringProperty extends Property
      *
      * @return ResultInterface
      */
-    protected function validateValue($value)
+    public function validate($value)
     {
         return is_string($value) ? Ok::unit() : Error::unit([ Error::NON_STRING ]);
     }

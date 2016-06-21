@@ -27,7 +27,7 @@ class EnumProperty extends Property
         parent::__construct($schema, $name, $definition, $parentProperty);
     }
 
-    protected function validateValue($value)
+    public function validate($value)
     {
         for ($n = 0; $n < count($this->allowedTypes); $n++) {
             $errors = [];
@@ -37,7 +37,7 @@ class EnumProperty extends Property
             } else {
                 $name = $this->getName().'_item';
                 $definition = [ 'type' => $type, 'required' => true ];
-                $result = $this->createProperty($name, $definition)->validate([ $name => $value ]);
+                $result = $this->createProperty($name, $definition)->validate($value);
             }
             if ($result instanceof Error) {
                 $errors = $result->unwrap();

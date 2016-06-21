@@ -14,7 +14,7 @@ class BoolProperty extends Property
      *
      * @return ResultInterface
      */
-    protected function validateValue($value)
+    public function validate($value)
     {
         return is_bool($value) ? Ok::unit() : Error::unit([ Error::NON_BOOL ]);
     }

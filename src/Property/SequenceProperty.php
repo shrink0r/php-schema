@@ -13,7 +13,7 @@ use Shrink0r\Configr\SchemaInterface;
 
 class SequenceProperty extends EnumProperty
 {
-    protected function validateValue($value)
+    public function validate($value)
     {
         if (!is_array($value)) {
             return Error::unit([ Error::NON_ARRAY ]);
@@ -21,7 +21,7 @@ class SequenceProperty extends EnumProperty
 
         $errors = [];
         foreach ($value as $pos => $item) {
-            $result = parent::validateValue($item);
+            $result = parent::validate($item);
             if ($result instanceof Error) {
                 $errors[$pos] = $result->unwrap();
             }

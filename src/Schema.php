@@ -58,7 +58,8 @@ class Schema implements SchemaInterface
         $properties = isset($schema['properties']) ? $schema['properties'] : null;
         if (is_array($properties)) {
             foreach ($properties as $name => $definition) {
-                $this->properties[] = $this->createProperty($name, $definition);
+                $property = $this->createProperty($name, $definition);
+                $this->properties[$property->getName()] = $property;
             }
         } else {
             throw new Exception("Missing valid value for 'properties' key within given schema.");
@@ -68,16 +69,36 @@ class Schema implements SchemaInterface
     /**
      * {@inheritdoc}
      */
-    public function validate(array $config)
+    public function validate(array $data)
     {
         $errors = [];
         foreach ($this->properties as $property) {
-            $result = $property->validate($config);
+            $propName = $property->getName();
+            if ($propName === ':any_name:') {
+                continue;
+            }
+            $propErrors = [];
+            if (!array_key_exists($propName, $data) && $property->isRequired()) {
+                $errors[$propName] = [ Error::MISSING_KEY ];
+                continue;
+            }
+            $value = isset($data[$propName]) ? $data[$propName] : null;
+            if (is_null($value)) {
+                if ($property->isRequired()) {
+                    $errors[$propName] = [ Error::MISSING_VALUE ];
+                }
+                continue;
+            }
+            $result = $property->validate($value);
             if ($result instanceof Error) {
-                if ($property->getName() === ':any_name:') {
-                    $errors = array_merge($errors, $result->unwrap());
-                } else {
-                    $errors[$property->getName()] = $result->unwrap();
+                $errors[$propName] = $result->unwrap();
+            }
+        }
+        if (isset($this->properties[':any_name:'])) {
+            foreach (array_diff_key($data, $this->properties) as $key => $value) {
+                $result = $this->properties[':any_name:']->validate($value);
+                if ($result instanceof Error) {
+                    $errors[$key] = $result->unwrap();
                 }
             }
         }

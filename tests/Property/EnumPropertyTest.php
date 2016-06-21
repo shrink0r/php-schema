@@ -23,7 +23,7 @@ class EnumPropertyTest extends PHPUnit_Framework_TestCase
                 'one_of' => [ 'int', 'string', 'float', 'bool' ]
             ]
         );
-        $result = $property->validate([ 'value' => 23 ]);
+        $result = $property->validate(23);
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -33,7 +33,7 @@ class EnumPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new EnumProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'fqcn' ] ]);
-        $result = $property->validate([ 'value' => TheVoid::class ]);
+        $result = $property->validate(TheVoid::class);
         $expectedErrors = [ Error::CLASS_NOT_EXISTS ];
 
         $this->assertInstanceOf(Error::class, $result);
@@ -45,7 +45,7 @@ class EnumPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new EnumProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'any' ] ]);
-        $result = $property->validate([ 'value' => [ [ 'foo', 'bar' ] ] ]);
+        $result = $property->validate([ 'foo', [ 'foo' => 'bar' ] ]);
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -58,7 +58,7 @@ class EnumPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new EnumProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ '&moep' ] ]);
-        $property->validate([ 'value' => 23 ]);
+        $property->validate(23);
     } // @codeCoverageIgnore
 
     public function testInvalidPropertyType()
@@ -69,6 +69,6 @@ class EnumPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new EnumProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'moep' ] ]);
-        $property->validate([ 'value' => 23 ]);
+        $property->validate(23);
     } // @codeCoverageIgnore
 }

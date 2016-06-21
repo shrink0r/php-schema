@@ -15,7 +15,7 @@ class IntPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new IntProperty($mockSchema, 'value', [ 'required' => true ]);
-        $result = $property->validate([ 'value' => 42 ]);
+        $result = $property->validate(42);
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -25,7 +25,7 @@ class IntPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new IntProperty($mockSchema, 'value', [ 'required' => true ]);
-        $result = $property->validate([ 'value' => 2.3 ]);
+        $result = $property->validate(2.3);
         $expectedErrors = [ Error::NON_INT ];
 
         $this->assertInstanceOf(Error::class, $result);

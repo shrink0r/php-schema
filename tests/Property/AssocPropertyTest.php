@@ -30,13 +30,11 @@ class AssocPropertyTest extends PHPUnit_Framework_TestCase
 
         $property = new AssocProperty($mockSchema, 'address', $definition);
         $result = $property->validate([
-            'address' => [
-                'street' => 'fleet street 23',
-                'zipcode' => '23542',
-                'coords' => [
-                    'lon' => 12.65,
-                    'lat' => 13.54
-                ]
+            'street' => 'fleet street 23',
+            'zipcode' => '23542',
+            'coords' => [
+                'lon' => 12.65,
+                'lat' => 13.54
             ]
         ]);
 
@@ -63,11 +61,9 @@ class AssocPropertyTest extends PHPUnit_Framework_TestCase
 
         $property = new AssocProperty($mockSchema, 'address', $definition);
         $result = $property->validate([
-            'address' => [
-                'street' => 'fleet street 23',
-                'zipcode' => '23542',
-                'coords' => 'foobar'
-            ]
+            'street' => 'fleet street 23',
+            'zipcode' => '23542',
+            'coords' => 'foobar'
         ]);
         $expectedErrors = [ 'coords' => [ Error::NON_ARRAY ] ];
 

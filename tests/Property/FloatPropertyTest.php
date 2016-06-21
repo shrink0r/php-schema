@@ -15,7 +15,7 @@ class FloatPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new FloatProperty($mockSchema, 'value', [ 'required' => true ]);
-        $result = $property->validate([ 'value' => 12.0 ]);
+        $result = $property->validate(12.0);
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -25,7 +25,7 @@ class FloatPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new FloatProperty($mockSchema, 'value', [ 'required' => true ]);
-        $result = $property->validate([ 'value' => 2 ]);
+        $result = $property->validate(2);
         $expectedErrors = [ Error::NON_FLOAT ];
 
         $this->assertInstanceOf(Error::class, $result);

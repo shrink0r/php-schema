@@ -15,7 +15,7 @@ class FqcnPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new FqcnProperty($mockSchema, 'class', [ 'required' => true ]);
-        $result = $property->validate([ 'class' => SchemaInterface::class ]);
+        $result = $property->validate(SchemaInterface::class);
 
         $this->assertInstanceOf(Ok::class, $result);
     }
@@ -25,7 +25,7 @@ class FqcnPropertyTest extends PHPUnit_Framework_TestCase
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
 
         $property = new FqcnProperty($mockSchema, 'class', [ 'required' => true ]);
-        $result = $property->validate([ 'class' => Foobar::class ]);
+        $result = $property->validate(Foobar::class);
         $expectedErrors = [ Error::CLASS_NOT_EXISTS ];
 
         $this->assertInstanceOf(Error::class, $result);

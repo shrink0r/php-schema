@@ -29,7 +29,7 @@ class AssocProperty extends Property
         parent::__construct($schema, $name, $definition, $parentProperty);
     }
 
-    protected function validateValue($value)
+    public function validate($value)
     {
         return is_array($value) ? $this->childSchema->validate($value) : Error::unit([ Error::NON_ARRAY ]);
     }
