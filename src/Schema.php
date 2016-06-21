@@ -77,7 +77,6 @@ class Schema implements SchemaInterface
             if ($propName === ':any_name:') {
                 continue;
             }
-            $propErrors = [];
             if (!array_key_exists($propName, $data) && $property->isRequired()) {
                 $errors[$propName] = [ Error::MISSING_KEY ];
                 continue;
