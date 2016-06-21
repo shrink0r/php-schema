@@ -29,7 +29,6 @@ class EnumProperty extends Property
 
     protected function validateValue($value)
     {
-        $schemaMatched = false;
         for ($n = 0; $n < count($this->allowedTypes); $n++) {
             $allowedType = $this->allowedTypes[$n];
             $errors = [];
