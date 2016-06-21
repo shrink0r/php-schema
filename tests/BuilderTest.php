@@ -194,4 +194,29 @@ class BuilderTest extends PHPUnit_Framework_TestCase
                 ->bar('value')
         ;
     }
+
+    public function testBuilderNestingInValue()
+    {
+        $builder = new Builder();
+        $result = $builder
+            ->foo(
+                (new Builder)
+                    ->bar('barValue')
+                    ->baz('bazValue')
+            )
+            ->foo
+                ->baz('newBazValue')
+            ->build()
+        ;
+
+        $expectedData = [
+            'foo' => [
+                'bar' => 'barValue',
+                'baz' => 'newBazValue',
+            ]
+        ];
+
+        $this->assertInstanceOf(Ok::class, $result);
+        $this->assertEquals($expectedData, $result->unwrap());
+    }
 }
