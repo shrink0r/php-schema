@@ -29,23 +29,20 @@ class EnumProperty extends Property
 
     public function validate($value)
     {
-        for ($n = 0; $n < count($this->allowedTypes); $n++) {
-            $errors = [];
-            $type = $this->allowedTypes[$n];
-            if (preg_match('/^&/', $type)) {
-                $result = $this->getCustomType($type)->validate($value);
-            } else {
-                $name = $this->getName().'_item';
-                $definition = [ 'type' => $type, 'required' => true ];
-                $result = $this->createProperty($name, $definition)->validate($value);
-            }
+        foreach ($this->allowedTypes as $type) {
+            $subject = preg_match('/^&/', $type)
+                ? $this->getCustomType($type)
+                : $this->createProperty(
+                    $this->getName().'_item',
+                    [ 'type' => $type, 'required' => true ]
+                );
+            $result = $subject->validate($value);
             if ($result instanceof Ok) {
                 return $result;
             }
-            $errors = $result->unwrap();
         }
 
-        return Error::unit($errors);
+        return $result;
     }
 
     protected function getCustomType($typeName)
