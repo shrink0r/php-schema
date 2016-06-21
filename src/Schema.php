@@ -26,18 +26,18 @@ class Schema implements SchemaInterface
     protected $parentProperty;
 
     /**
-     * @var array $properties An array of PropertyInterface
+     * @var PropertyInterface[] $properties
      */
     protected $properties = [];
 
     /**
-     * @var array $customTypes An array of SchemaInterface
+     * @var SchemaInterface[]
      */
     protected $customTypes = [];
 
     /**
      * @param string $name The name of the schema.
-     * @param array $schema The schema definition.
+     * @param mixed[] $schema The schema definition.
      * @param PropertyInterface $parentProperty If created below a prop (assoc, etc.) this will hold that property.
      */
     public function __construct(
@@ -133,7 +133,7 @@ class Schema implements SchemaInterface
      * Create a property from the give property definition.
      *
      * @param string $name
-     * @param array $definition
+     * @param mixed[] $definition
      *
      * @return PropertyInterface
      */

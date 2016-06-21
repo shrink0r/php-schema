@@ -10,7 +10,7 @@ interface SchemaInterface
     /**
      * Verify that the given data is structured according to the scheme.
      *
-     * @param array $data
+     * @param mixed[] $data
      *
      * @return ResultInterface Returns Ok on success; otherwise Error.
      */
@@ -26,14 +26,14 @@ interface SchemaInterface
     /**
      * Returns the custom-types that have been defined for the schema.
      *
-     * @return array An array of SchemaInterface.
+     * @return SchemaInterface[]
      */
     public function getCustomTypes();
 
     /**
      * Returns the schema's properties.
      *
-     * @return array An array of PropertyInterface.
+     * @return PropertyInterface[]
      */
     public function getProperties();
 }

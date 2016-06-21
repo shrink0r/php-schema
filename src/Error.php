@@ -65,7 +65,7 @@ class Error implements ResultInterface
     /**
      * Creates a new Error instance, which holds the given errors.
      *
-     * @param array $errors
+     * @param mixed[] $errors
      *
      * @return Error
      */
@@ -77,7 +77,7 @@ class Error implements ResultInterface
     }
 
     /**
-     * @param array $errors
+     * @param mixed[] $errors
      */
     public function __construct(array $errors)
     {
@@ -87,7 +87,7 @@ class Error implements ResultInterface
     /**
      * Unwrap the contained errors.
      *
-     * @return array The errors returned by an operation.
+     * @return mixed[] The errors returned by an operation.
      */
     public function unwrap()
     {
