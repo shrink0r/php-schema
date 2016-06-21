@@ -13,6 +13,13 @@ use Shrink0r\Configr\SchemaInterface;
 
 class SequenceProperty extends EnumProperty
 {
+    /**
+     * Tells if a given array's items adhere to any of the property's allowed types.
+     *
+     * @param mixed $value
+     *
+     * @return ResultInterface Returns Ok if the value is valid, otherwise an Error is returned.
+     */
     public function validate($value)
     {
         if (!is_array($value)) {

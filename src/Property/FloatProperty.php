@@ -8,11 +8,11 @@ use Shrink0r\Configr\Ok;
 class FloatProperty extends Property
 {
     /**
-     * Tells whether a given value is a valid float.
+     * Tells if a given value is a valid float.
      *
      * @param mixed $value
      *
-     * @return ResultInterface
+     * @return ResultInterface Returns Ok if the value is valid, otherwise an Error is returned.
      */
     public function validate($value)
     {

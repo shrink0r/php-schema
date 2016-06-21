@@ -8,11 +8,11 @@ use Shrink0r\Configr\Ok;
 class StringProperty extends Property
 {
     /**
-     * Tells whether a given value is a valid string.
+     * Tells if a given value is a valid string.
      *
      * @param mixed $value
      *
-     * @return ResultInterface
+     * @return ResultInterface Returns Ok if the value is valid, otherwise an Error is returned.
      */
     public function validate($value)
     {

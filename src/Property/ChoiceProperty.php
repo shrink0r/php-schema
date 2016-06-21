@@ -9,8 +9,19 @@ use Shrink0r\Configr\SchemaInterface;
 
 class ChoiceProperty extends Property
 {
+    /**
+     * @param mixed[] $choices
+     */
     protected $choices;
 
+    /**
+     * @param SchemaInterface $schema The schema that the property is part of.
+     * @param string $name The name of the schema.
+     * @param mixed[] $definition Must contain a key named 'choices' containing the values,
+     *                            that will be allowed to pass the property's validation.
+     * @param PropertyInterface $parentProperty If the schema is created by an assoc or sequence prop,
+     *                                          this must be the creating parent property.
+     */
     public function __construct(
         SchemaInterface $schema,
         $name,
@@ -24,11 +35,11 @@ class ChoiceProperty extends Property
     }
 
     /**
-     * Tells whether a given value is a valid choice according to the property definition.
+     * Tells if a given value is a valid choice according to the property's definition.
      *
      * @param mixed $value
      *
-     * @return ResultInterface
+     * @return ResultInterface Returns Ok if the value is valid, otherwise an Error is returned.
      */
     public function validate($value)
     {

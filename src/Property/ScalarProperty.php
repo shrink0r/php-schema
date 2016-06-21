@@ -8,11 +8,11 @@ use Shrink0r\Configr\Ok;
 class ScalarProperty extends Property
 {
     /**
-     * Tells whether a given value is a valid scalar.
+     * Tells if a given value is a valid scalar.
      *
      * @param mixed $value
      *
-     * @return ResultInterface
+     * @return ResultInterface Returns Ok if the value is valid, otherwise an Error is returned.
      */
     public function validate($value)
     {

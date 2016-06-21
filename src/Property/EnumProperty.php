@@ -13,8 +13,19 @@ use Shrink0r\Configr\SchemaInterface;
 
 class EnumProperty extends Property
 {
+    /**
+     * @var string[] $allowedTypes
+     */
     protected $allowedTypes;
 
+    /**
+     * @param SchemaInterface $schema The schema that the property is part of.
+     * @param string $name The name of the schema.
+     * @param mixed[] $definition Must contain a key named 'one_of' containing the value types,
+     *                            that will be allowed to pass the property's validation.
+     * @param PropertyInterface $parentProperty If the schema is created by an assoc or sequence prop,
+     *                                          this must be the creating parent property.
+     */
     public function __construct(
         SchemaInterface $schema,
         $name,
@@ -27,6 +38,13 @@ class EnumProperty extends Property
         parent::__construct($schema, $name, $definition, $parentProperty);
     }
 
+    /**
+     * Tells if a given value adhere's to one of the property's allowed types.
+     *
+     * @param mixed $value
+     *
+     * @return ResultInterface Returns Ok if the value is valid, otherwise an Error is returned.
+     */
     public function validate($value)
     {
         foreach ($this->allowedTypes as $type) {
@@ -45,6 +63,13 @@ class EnumProperty extends Property
         return $result;
     }
 
+    /**
+     * Retrieves a custom type definition by name.
+     *
+     * @param string $typeName The name of the type prefixed with a '&'.
+     *
+     * @return SchemaInterface
+     */
     protected function getCustomType($typeName)
     {
         $customTypes = $this->schema->getCustomTypes();
@@ -53,10 +78,17 @@ class EnumProperty extends Property
         if (isset($customTypes[$typeName])) {
             return $customTypes[$typeName];
         }
-
         throw new Exception("Unable to resolve '$typeName' to a custom type-definition.");
     }
 
+    /**
+     * Creates a property with the given name according to the given property definition.
+     *
+     * @param string $name
+     * @param mixed[] $definition
+     *
+     * @return PropertyInterface
+     */
     protected function createProperty($name, array $definition)
     {
         $type = $definition['type'];

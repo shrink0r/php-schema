@@ -8,11 +8,11 @@ use Shrink0r\Configr\Ok;
 class FqcnProperty extends Property
 {
     /**
-     * Tells whether a given value is a fully qualified class name of an existing class.
+     * Tells if a given value is a fully qualified class name of an existing php class.
      *
      * @param mixed $value
      *
-     * @return ResultInterface
+     * @return ResultInterface Returns Ok if the value is valid, otherwise an Error is returned.
      */
     public function validate($value)
     {
