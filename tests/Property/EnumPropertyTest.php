@@ -23,9 +23,20 @@ class EnumPropertyTest extends PHPUnit_Framework_TestCase
                 'one_of' => [ 'int', 'string', 'float', 'bool' ]
             ]
         );
-        $result = $property->validate(23);
+        $this->assertInstanceOf(Ok::class, $property->validate(23));
+        $this->assertInstanceOf(Ok::class, $property->validate(2.3));
+        $this->assertInstanceOf(Ok::class, $property->validate(true));
+        $this->assertInstanceOf(Ok::class, $property->validate('hello world!'));
 
-        $this->assertInstanceOf(Ok::class, $result);
+        $property = new EnumProperty(
+            $mockSchema,
+            'value',
+            [ 'required' => true, 'one_of' => [ 'scalar' ] ]
+        );
+        $this->assertInstanceOf(Ok::class, $property->validate(23));
+        $this->assertInstanceOf(Ok::class, $property->validate(2.3));
+        $this->assertInstanceOf(Ok::class, $property->validate(true));
+        $this->assertInstanceOf(Ok::class, $property->validate('hello world!'));
     }
 
     public function testValidateError()
