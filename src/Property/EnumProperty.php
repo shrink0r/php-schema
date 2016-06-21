@@ -39,11 +39,10 @@ class EnumProperty extends Property
                 $definition = [ 'type' => $type, 'required' => true ];
                 $result = $this->createProperty($name, $definition)->validate($value);
             }
-            if ($result instanceof Error) {
-                $errors = $result->unwrap();
-            } else {
+            if ($result instanceof Ok) {
                 return $result;
             }
+            $errors = $result->unwrap();
         }
 
         return Error::unit($errors);

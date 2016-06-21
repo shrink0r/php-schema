@@ -56,13 +56,12 @@ class Schema implements SchemaInterface
         }
 
         $properties = isset($schema['properties']) ? $schema['properties'] : null;
-        if (is_array($properties)) {
-            foreach ($properties as $name => $definition) {
-                $property = $this->createProperty($name, $definition);
-                $this->properties[$property->getName()] = $property;
-            }
-        } else {
+        if (!is_array($properties)) {
             throw new Exception("Missing valid value for 'properties' key within given schema.");
+        }
+        foreach ($properties as $name => $definition) {
+            $property = $this->createProperty($name, $definition);
+            $this->properties[$property->getName()] = $property;
         }
     }
 

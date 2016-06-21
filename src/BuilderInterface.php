@@ -2,12 +2,10 @@
 
 namespace Shrink0r\Configr;
 
-use ArrayAccess;
-
 /**
  * A builder is responsible for providing a convenient api to defining deeply nested array structures.
  */
-interface BuilderInterface extends ArrayAccess
+interface BuilderInterface
 {
     /**
      * Merges the builder's current state with the given defaults (builder state winning over default).

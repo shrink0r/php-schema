@@ -5,7 +5,7 @@ namespace Shrink0r\Configr;
 /**
  * Default implementation of the BuilderInterface.
  */
-class Builder implements BuilderInterface
+class Builder implements BuilderInterface, \ArrayAccess
 {
     /**
      * @var mixed[] $data The builder's data
