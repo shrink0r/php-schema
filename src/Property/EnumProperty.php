@@ -30,45 +30,40 @@ class EnumProperty extends Property
     protected function validateValue($value)
     {
         $schemaMatched = false;
-
-        for ($n = 0; $n < count($this->allowedTypes) && !$schemaMatched; $n++) {
+        for ($n = 0; $n < count($this->allowedTypes); $n++) {
             $allowedType = $this->allowedTypes[$n];
             $errors = [];
             if (preg_match('/^&/', $allowedType)) {
                 $schema = $this->getCustomType($allowedType);
                 $result = $schema->validate($value);
                 if ($result instanceof Ok) {
-                    $schemaMatched = true;
-                } else {
-                    $errors = $result->unwrap();
+                    return $result;
                 }
+                $errors = $result->unwrap();
             } else {
-                $propName = $this->getName().'_item';
-                $valueProperty = $this->createProperty(
-                    $propName,
-                    [ 'type' => $allowedType, 'required' => true ]
-                );
-                $result = $valueProperty->validate([ $propName => $value ]);
+                $name = $this->getName().'_item';
+                $definition = [ 'type' => $allowedType, 'required' => true ];
+                $result = $this->createProperty($name, $definition)->validate([ $name => $value ]);
                 if ($result instanceof Ok) {
-                    $schemaMatched = true;
-                } else {
-                    $errors = $result->unwrap();
+                    return $result;
                 }
+                $errors = $result->unwrap();
             }
         }
 
-        return $schemaMatched ? Ok::unit() : Error::unit($errors);
+        return Error::unit($errors);
     }
 
     protected function getCustomType($typeName)
     {
         $customTypes = $this->schema->getCustomTypes();
         $typeName = ltrim($typeName, '&');
-        if (!isset($customTypes[$typeName])) {
-            throw new Exception("Unable to resolve '$typeName' to a custom type-definition.");
+
+        if (isset($customTypes[$typeName])) {
+            return $customTypes[$typeName];
         }
 
-        return $customTypes[$typeName];
+        throw new Exception("Unable to resolve '$typeName' to a custom type-definition.");
     }
 
     protected function createProperty($name, array $definition)

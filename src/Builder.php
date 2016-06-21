@@ -44,19 +44,12 @@ class Builder implements BuilderInterface
     public function build(array $defaults = [])
     {
         $builtConfig = array_replace_recursive($defaults, $this->data);
-
-        if ($this->schema) {
-            $validationResult = $this->schema->validate($builtConfig);
-            if ($validationResult instanceof Error) {
-                $result = $validationResult;
-            } else {
-                $result = Ok::unit($builtConfig);
-            }
-        } else {
-            $result = Ok::unit($builtConfig);
+        if (!$this->schema) {
+            return Ok::unit($builtConfig);
         }
 
-        return $result;
+        $validationResult = $this->schema->validate($builtConfig);
+        return $validationResult instanceof Error ? $validationResult : Ok::unit($builtConfig);
     }
 
     /**
@@ -168,7 +161,7 @@ class Builder implements BuilderInterface
     public function end()
     {
         $valuePath = $this->valuePath;
-        $valuePtr = $this->valuePtr;
+
         $this->rewind();
 
         array_pop($valuePath);
