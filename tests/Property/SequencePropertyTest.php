@@ -40,6 +40,18 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedErrors, $result->unwrap());
     }
 
+    public function testInvalidValue()
+    {
+        $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+
+        $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'fqcn' ] ]);
+        $result = $property->validate([ 'value' => 'meh' ]);
+        $expectedErrors = [ Error::NON_ARRAY ];
+
+        $this->assertInstanceOf(Error::class, $result);
+        $this->assertEquals($expectedErrors, $result->unwrap());
+    }
+
     public function testValidateAnyOk()
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
