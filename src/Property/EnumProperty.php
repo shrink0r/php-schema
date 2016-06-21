@@ -30,23 +30,19 @@ class EnumProperty extends Property
     protected function validateValue($value)
     {
         for ($n = 0; $n < count($this->allowedTypes); $n++) {
-            $allowedType = $this->allowedTypes[$n];
             $errors = [];
-            if (preg_match('/^&/', $allowedType)) {
-                $schema = $this->getCustomType($allowedType);
-                $result = $schema->validate($value);
-                if ($result instanceof Ok) {
-                    return $result;
-                }
-                $errors = $result->unwrap();
+            $type = $this->allowedTypes[$n];
+            if (preg_match('/^&/', $type)) {
+                $result = $this->getCustomType($type)->validate($value);
             } else {
                 $name = $this->getName().'_item';
-                $definition = [ 'type' => $allowedType, 'required' => true ];
+                $definition = [ 'type' => $type, 'required' => true ];
                 $result = $this->createProperty($name, $definition)->validate([ $name => $value ]);
-                if ($result instanceof Ok) {
-                    return $result;
-                }
+            }
+            if ($result instanceof Error) {
                 $errors = $result->unwrap();
+            } else {
+                return $result;
             }
         }
 
