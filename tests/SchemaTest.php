@@ -26,13 +26,13 @@ class SchemaTest extends PHPUnit_Framework_TestCase
         $schema = new Schema('address', [
             'type' => 'assoc',
             'properties' => [
-                'street' => [ 'type' => 'scalar' ],
-                'zipcode' => [ 'type' => 'scalar' ],
+                'street' => [ 'type' => 'string' ],
+                'zipcode' => [ 'type' => 'string' ],
                 'coords' => [
                     'type' => 'assoc',
                     'properties' => [
-                        'lon' => [ 'type' => 'scalar' ],
-                        'lat' => [ 'type' => 'scalar' ]
+                        'lon' => [ 'type' => 'float' ],
+                        'lat' => [ 'type' => 'float' ]
                     ]
                 ]
             ]

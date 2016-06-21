@@ -10,7 +10,17 @@ class Error implements ResultInterface
 
     const NON_SCALAR = 'non_scalar';
 
+    const NON_STRING = 'non_string';
+
+    const NON_INT = 'non_int';
+
+    const NON_FLOAT = 'non_float';
+
+    const NON_BOOL = 'non_bool';
+
     const NON_ARRAY = 'non_array';
+
+    const INVALID_CHOICE = 'non_array';
 
     const CLASS_NOT_EXISTS = 'class_not_exists';
 

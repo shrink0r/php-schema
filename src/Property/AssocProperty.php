@@ -31,10 +31,6 @@ class AssocProperty extends Property
 
     protected function validateValue($value)
     {
-        if (is_array($value)) {
-            return $this->childSchema->validate($value);
-        } else {
-            return Error::unit([ Error::NON_ARRAY ]);
-        }
+        return is_array($value) ? $this->childSchema->validate($value) : Error::unit([ Error::NON_ARRAY ]);
     }
 }

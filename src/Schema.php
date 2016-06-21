@@ -3,11 +3,17 @@
 namespace Shrink0r\Configr;
 
 use Shrink0r\Configr\Property\AssocProperty;
+use Shrink0r\Configr\Property\BoolProperty;
+use Shrink0r\Configr\Property\ChoiceProperty;
+use Shrink0r\Configr\Property\EnumProperty;
+use Shrink0r\Configr\Property\FloatProperty;
 use Shrink0r\Configr\Property\FqcnProperty;
+use Shrink0r\Configr\Property\IntProperty;
 use Shrink0r\Configr\Property\Property;
 use Shrink0r\Configr\Property\PropertyInterface;
 use Shrink0r\Configr\Property\ScalarProperty;
 use Shrink0r\Configr\Property\SequenceProperty;
+use Shrink0r\Configr\Property\StringProperty;
 
 class Schema implements SchemaInterface
 {
@@ -83,6 +89,18 @@ class Schema implements SchemaInterface
             case 'scalar':
                 $property = new ScalarProperty($this, $name, $definition, $this->parentProperty);
                 break;
+            case 'bool':
+                $property = new BoolProperty($this, $name, $definition, $this->parentProperty);
+                break;
+            case 'string':
+                $property = new StringProperty($this, $name, $definition, $this->parentProperty);
+                break;
+            case 'int':
+                $property = new IntProperty($this, $name, $definition, $this->parentProperty);
+                break;
+            case 'float':
+                $property = new FloatProperty($this, $name, $definition, $this->parentProperty);
+                break;
             case 'any':
                 $property = new Property($this, $name, $definition, $this->parentProperty);
                 break;
@@ -94,6 +112,12 @@ class Schema implements SchemaInterface
                 break;
             case 'fqcn':
                 $property = new FqcnProperty($this, $name, $definition, $this->parentProperty);
+                break;
+            case 'enum':
+                $property = new EnumProperty($this, $name, $definition, $this->parentProperty);
+                break;
+            case 'choice':
+                $property = new ChoiceProperty($this, $name, $definition, $this->parentProperty);
                 break;
             default:
                 throw new Exception("Unsupported property-type '$type' given.");
