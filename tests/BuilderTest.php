@@ -146,4 +146,52 @@ class BuilderTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('hello world!', $builder->bar->valueOf('greetings'));
     }
+
+    public function testCanAccessArrayAfterInsert()
+    {
+        $builder = new Builder();
+        $result = $builder
+            ->foo([
+                'bar' => 'value'
+            ])
+            ->foo
+                ->bar('newValue')
+            ->build()
+        ;
+        $expectedData = [
+            'foo' => [
+                'bar' => 'newValue'
+            ]
+        ];
+
+        $this->assertInstanceOf(Ok::class, $result);
+        $this->assertEquals($expectedData, $result->unwrap());
+    }
+
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     */
+    public function testTypeDivergenceArrayToScalarThrows()
+    {
+        $builder = new Builder();
+        $builder
+            ->foo
+                ->bar('value')
+            ->end()
+            ->foo('value')
+        ;
+    }
+
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     */
+    public function testTypeDivergenceScalarToArrayThrows()
+    {
+        $builder = new Builder();
+        $builder
+            ->foo('value')
+            ->foo
+                ->bar('value')
+        ;
+    }
 }
