@@ -4,8 +4,9 @@ namespace Shrink0r\Configr\Tests\Property;
 
 use PHPUnit_Framework_TestCase;
 use Shrink0r\Configr\Error;
-use Shrink0r\Configr\Ok;
+use Shrink0r\Configr\Exception;
 use Shrink0r\Configr\Factory;
+use Shrink0r\Configr\Ok;
 use Shrink0r\Configr\Property\AssocProperty;
 use Shrink0r\Configr\SchemaInterface;
 
@@ -76,5 +77,17 @@ class AssocPropertyTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Error::class, $result);
         $this->assertEquals($expectedErrors, $result->unwrap());
+    }
+
+    public function testMissingProperties()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("Missing required key 'properties' within assoc definition.");
+
+        $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+        $mockSchema->method('getFactory')
+             ->willReturn(new Factory());
+
+        new AssocProperty($mockSchema, 'address', []);
     }
 }

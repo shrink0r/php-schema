@@ -120,6 +120,28 @@ class Schema implements SchemaInterface
     }
 
     /**
+     * Ensures that the given schema has valid values. Will yield defaults where available.
+     *
+     * @param mixed[] $schema
+     *
+     * @return mixed[] Returns the given schema plus defaults where applicable.
+     */
+    protected function verifySchema(array $schema)
+    {
+        $customTypes = isset($schema['customTypes']) ? $schema['customTypes'] : [];
+        if (!is_array($customTypes)) {
+            throw new Exception("Given value for key 'customTypes' is not an array.");
+        }
+
+        $properties = isset($schema['properties']) ? $schema['properties'] : null;
+        if (!is_array($properties)) {
+            throw new Exception("Missing valid value for 'properties' key within given schema.");
+        }
+
+        return [ $customTypes, $properties ];
+    }
+
+    /**
      * Validates the values of all explictly defined schema properties.
      *
      * @param array $data
@@ -137,30 +159,6 @@ class Schema implements SchemaInterface
             }
             if ($result instanceof Error) {
                 $errors[$key] = $result->unwrap();
-            }
-        }
-
-        return empty($errors) ? Ok::unit() : Error::unit($errors);
-    }
-
-    /**
-     * If the schema has a property named ':any_name:', this method will validate all keys,
-     * that have not been explicitly addressed by the schema.
-     *
-     * @param mixed[] $data
-     *
-     * @return ResultInterface
-     */
-    protected function validateAnyValues(array $data)
-    {
-        $errors = [];
-
-        if (isset($this->properties[':any_name:'])) {
-            foreach (array_diff_key($data, $this->properties) as $key => $value) {
-                $result = $this->properties[':any_name:']->validate($value);
-                if ($result instanceof Error) {
-                    $errors[$key] = $result->unwrap();
-                }
             }
         }
 
@@ -192,24 +190,26 @@ class Schema implements SchemaInterface
     }
 
     /**
-     * Ensures that the given schema has valid values. Will yield defaults where available.
+     * If the schema has a property named ':any_name:', this method will validate all keys,
+     * that have not been explicitly addressed by the schema.
      *
-     * @param mixed[] $schema
+     * @param mixed[] $data
      *
-     * @return mixed[] Returns the given schema plus defaults where applicable.
+     * @return ResultInterface
      */
-    protected function verifySchema(array $schema)
+    protected function validateAnyValues(array $data)
     {
-        $customTypes = isset($schema['customTypes']) ? $schema['customTypes'] : [];
-        if (!is_array($customTypes)) {
-            throw new Exception("Given value for key 'customTypes' is not an array.");
+        $errors = [];
+
+        if (isset($this->properties[':any_name:'])) {
+            foreach (array_diff_key($data, $this->properties) as $key => $value) {
+                $result = $this->properties[':any_name:']->validate($value);
+                if ($result instanceof Error) {
+                    $errors[$key] = $result->unwrap();
+                }
+            }
         }
 
-        $properties = isset($schema['properties']) ? $schema['properties'] : null;
-        if (!is_array($properties)) {
-            throw new Exception("Missing valid value for 'properties' key within given schema.");
-        }
-
-        return [ $customTypes, $properties ];
+        return empty($errors) ? Ok::unit() : Error::unit($errors);
     }
 }
