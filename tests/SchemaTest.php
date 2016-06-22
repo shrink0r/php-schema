@@ -44,6 +44,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertCount(3, $schema->getProperties());
+        $this->assertEquals('address', $schema->getName());
         $this->assertEquals('assoc', $schema->getType());
     }
 

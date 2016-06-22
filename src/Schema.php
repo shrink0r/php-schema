@@ -10,6 +10,16 @@ use Shrink0r\Configr\Property\PropertyInterface;
 class Schema implements SchemaInterface
 {
     /**
+     * @var string $name
+     */
+    protected $name;
+
+    /**
+     * @var string $type
+     */
+    protected $type;
+
+    /**
      * @var PropertyInterface $parent
      */
     protected $parent;
@@ -30,20 +40,21 @@ class Schema implements SchemaInterface
     protected $factory;
 
     /**
-     * @param string $key The name of the schema.
+     * @param string $name The name of the schema.
      * @param mixed[] $schema Must contain keys for 'type', 'properties' and 'customTypes'.
      * @param Factory $factory Will be used to create objects while processing the given schema.
      * @param PropertyInterface $parent If created below a prop (assoc, etc.) this will hold that property.
      */
-    public function __construct($key, array $schema, FactoryInterface $factory, PropertyInterface $parent = null)
+    public function __construct($name, array $schema, FactoryInterface $factory, PropertyInterface $parent = null)
     {
-        $this->type = $schema['type'];
+        $this->name = $name;
         $this->parent = $parent;
         $this->factory = $factory;
+        $this->type = $schema['type'];
 
         list($customTypes, $properties) = $this->validateSchema($schema);
-        foreach ($customTypes as $key => $definition) {
-            $this->customTypes[$key] = $this->factory->createSchema($key, $definition, $parent);
+        foreach ($customTypes as $name => $definition) {
+            $this->customTypes[$name] = $this->factory->createSchema($name, $definition, $parent);
         }
         $this->properties = $this->factory->createProperties($properties, $this, $parent);
     }
@@ -85,6 +96,14 @@ class Schema implements SchemaInterface
         }
 
         return empty($errors) ? Ok::unit() : Error::unit($errors);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**

@@ -17,6 +17,13 @@ interface SchemaInterface
     public function validate(array $data);
 
     /**
+     * Returns the schema's name.
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
      * Returns the schema type. Atm only 'assoc' is supported.
      *
      * @return string
