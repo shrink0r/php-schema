@@ -19,7 +19,7 @@ class ChoiceProperty extends Property
      * @param mixed[] $definition Must contain a key named 'one_of' containing the values,
      *                            that will be allowed to pass the property's validation.
      * @param PropertyInterface $parent If the schema is created by an assoc or sequence prop,
-     *                                          this must be the creating parent property.
+     *                                  this must be the creating parent property.
      */
     public function __construct(SchemaInterface $schema, $name, array $definition, PropertyInterface $parent = null)
     {

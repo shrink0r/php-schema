@@ -53,7 +53,7 @@ class Schema implements SchemaInterface
         $this->factory = $factory;
         $this->type = $schema['type'];
 
-        list($customTypes, $properties) = $this->validateSchema($schema);
+        list($customTypes, $properties) = $this->verifySchema($schema);
         foreach ($customTypes as $name => $definition) {
             $this->customTypes[$name] = $this->factory->createSchema($name, $definition, $parent);
         }
@@ -192,13 +192,13 @@ class Schema implements SchemaInterface
     }
 
     /**
-     * Ensures that the given schema has valid values and yields defaults where available.
+     * Ensures that the given schema has valid values. Will yield defaults where available.
      *
      * @param mixed[] $schema
      *
      * @return mixed[] Returns the given schema plus defaults where applicable.
      */
-    protected function validateSchema(array $schema)
+    protected function verifySchema(array $schema)
     {
         $customTypes = isset($schema['customTypes']) ? $schema['customTypes'] : [];
         if (!is_array($customTypes)) {

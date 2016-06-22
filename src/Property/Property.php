@@ -33,7 +33,7 @@ class Property implements PropertyInterface
      * @param string $name The name of the schema.
      * @param mixed[] $definition May contain the key 'required', if omitted will default to true.
      * @param PropertyInterface $parent If the schema is created by an assoc or sequence prop,
-     *                                          this must be the creating parent property.
+     *                                  this must be the creating parent property.
      */
     public function __construct(SchemaInterface $schema, $name, array $definition, PropertyInterface $parent = null)
     {

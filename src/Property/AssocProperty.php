@@ -20,7 +20,7 @@ class AssocProperty extends Property
      * @param mixed[] $definition Must contain a key named 'properties' that defines a schema,
      *                            which the property will proxy validation to.
      * @param PropertyInterface $parent If the schema is created by an assoc or sequence prop,
-     *                                          this must be the creating parent property.
+     *                                  this must be the creating parent property.
      */
     public function __construct(SchemaInterface $schema, $name, array $definition, PropertyInterface $parent = null)
     {
