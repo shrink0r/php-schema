@@ -98,7 +98,7 @@ class Factory implements FactoryInterface
      */
     protected function verifyClassMap(array $classMap)
     {
-        foreach ($classMap as $class) {
+        foreach ($classMap as $type => $class) {
             if (!class_exists($class)) {
                 throw new Exception("Class '$class' that has been registered for type '$type' does not exist");
             }
