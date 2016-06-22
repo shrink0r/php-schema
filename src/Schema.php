@@ -178,14 +178,13 @@ class Schema implements SchemaInterface
     protected function selectValue(PropertyInterface $property, array $data)
     {
         $errors = [];
-
         $key = $property->getName();
-        if (!array_key_exists($key, $data) && $property->isRequired()) {
-            $errors[] = Error::MISSING_KEY;
-        }
-
         $value = isset($data[$key]) ? $data[$key] : null;
+
         if (is_null($value) && $property->isRequired()) {
+            if (!array_key_exists($key, $data)) {
+                $errors[] = Error::MISSING_KEY;
+            }
             $errors[] = Error::MISSING_VALUE;
         }
 
