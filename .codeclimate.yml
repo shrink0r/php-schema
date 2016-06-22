@@ -9,6 +9,8 @@ engines:
     enabled: true
   phpmd:
     enabled: true
+    exclude_fingerprints:
+      - b282baf1988d989fb4f33e305f33092b
     checks:
       CleanCode/StaticAccess:
         enabled: false
