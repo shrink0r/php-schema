@@ -3,6 +3,7 @@
 namespace Shrink0r\Configr;
 
 use Shrink0r\Configr\Property\PropertyInterface;
+use Shrink0r\Configr\ResultInterface;
 
 /**
  * Default implementation of the SchemaInterface.
@@ -65,35 +66,13 @@ class Schema implements SchemaInterface
     public function validate(array $data)
     {
         $errors = [];
-        foreach ($this->properties as $property) {
-            $key = $property->getName();
-            if ($key === ':any_name:') {
-                continue;
-            }
-            if (!array_key_exists($key, $data) && $property->isRequired()) {
-                $errors[$key] = [ Error::MISSING_KEY ];
-                continue;
-            }
-            $value = isset($data[$key]) ? $data[$key] : null;
-            if (is_null($value)) {
-                if ($property->isRequired()) {
-                    $errors[$key] = [ Error::MISSING_VALUE ];
-                }
-                continue;
-            }
-            $result = $property->validate($value);
+        $mergeErrors = function (ResultInterface $result) use (&$errors) {
             if ($result instanceof Error) {
-                $errors[$key] = $result->unwrap();
+                $errors = array_merge($errors, $result->unwrap());
             }
-        }
-        if (isset($this->properties[':any_name:'])) {
-            foreach (array_diff_key($data, $this->properties) as $key => $value) {
-                $result = $this->properties[':any_name:']->validate($value);
-                if ($result instanceof Error) {
-                    $errors[$key] = $result->unwrap();
-                }
-            }
-        }
+        };
+        $mergeErrors($this->validateMappedValues($data));
+        $mergeErrors($this->validateAnyValues($data));
 
         return empty($errors) ? Ok::unit() : Error::unit($errors);
     }
@@ -136,6 +115,62 @@ class Schema implements SchemaInterface
     public function getFactory()
     {
         return $this->factory;
+    }
+
+    /**
+     * Validates the values of all explictly defined schema properties.
+     *
+     * @param array $data
+     *
+     * @return ResultInterface
+     */
+    protected function validateMappedValues(array $data)
+    {
+        $errors = [];
+
+        foreach (array_diff_key($this->properties, [ ':any_name:' => 1 ]) as $key => $property) {
+            if (!array_key_exists($key, $data) && $property->isRequired()) {
+                $errors[$key] = [ Error::MISSING_KEY ];
+                continue;
+            }
+            $value = isset($data[$key]) ? $data[$key] : null;
+            if (is_null($value)) {
+                if ($property->isRequired()) {
+                    $errors[$key] = [ Error::MISSING_VALUE ];
+                }
+                continue;
+            }
+            $result = $property->validate($value);
+            if ($result instanceof Error) {
+                $errors[$key] = $result->unwrap();
+            }
+        }
+
+        return empty($errors) ? Ok::unit() : Error::unit($errors);
+    }
+
+    /**
+     * If the schema has a property named ':any_name:', this method will validate all keys,
+     * that have not been explicitly addressed by the schema.
+     *
+     * @param mixed[] $data
+     *
+     * @return ResultInterface
+     */
+    protected function validateAnyValues(array $data)
+    {
+        $errors = [];
+
+        if (isset($this->properties[':any_name:'])) {
+            foreach (array_diff_key($data, $this->properties) as $key => $value) {
+                $result = $this->properties[':any_name:']->validate($value);
+                if ($result instanceof Error) {
+                    $errors[$key] = $result->unwrap();
+                }
+            }
+        }
+
+        return empty($errors) ? Ok::unit() : Error::unit($errors);
     }
 
     /**
