@@ -39,14 +39,8 @@ class EnumProperty extends Property
     public function validate($value)
     {
         foreach ($this->allowedTypes as $type) {
-            $result = (preg_match('/^&/', $type)
-                ? $this->getCustomType($type)
-                : $this->getSchema()->getFactory()->createProperty(
-                    [ 'type' => $type, 'name' => $this->getName().'_item', 'required' => true ],
-                    $this->getSchema(),
-                    $this
-                )
-            )->validate($value);
+            $result = (preg_match('/^&/', $type) ? $this->getCustomType($type) : $this->createProperty($type))
+                ->validate($value);
 
             if ($result instanceof Ok) {
                 return $result;
@@ -56,7 +50,7 @@ class EnumProperty extends Property
     }
 
     /**
-     * Retrieves a custom type definition by name.
+     * Retrieves a custom type definition by name, that will be used to proxy the property's validation to.
      *
      * @param string $type The name/key of the type prefixed with a '&'.
      *
@@ -70,6 +64,23 @@ class EnumProperty extends Property
         if (isset($customTypes[$type])) {
             return $customTypes[$type];
         }
+
         throw new Exception("Unable to resolve '$type' to a custom type-definition.");
+    }
+
+    /**
+     * Creates a child-property that will be used as a proxy-target for the parent property's validation.
+     *
+     * @param string $type The type key of the property to create.
+     *
+     * @return PropertyInterface
+     */
+    protected function createProperty($type)
+    {
+        return $this->getSchema()->getFactory()->createProperty(
+            [ 'type' => $type, 'name' => $this->getName().'_item', 'required' => true ],
+            $this->getSchema(),
+            $this
+        );
     }
 }
