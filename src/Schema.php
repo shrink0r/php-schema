@@ -65,18 +65,15 @@ class Schema implements SchemaInterface
      */
     public function validate(array $data)
     {
-        $errors = [];
-
         $mergeErrors = function (array $errors, ResultInterface $result) {
             if ($result instanceof Error) {
                 return array_merge($errors, $result->unwrap());
             }
             return $errors;
         };
-        $errors = $mergeErrors(
-            $mergeErrors($errors, $this->validateMappedValues($data)),
-            $this->validateAnyValues($data)
-        );
+
+        $validationResults = [ $this->validateMappedValues($data), $this->validateAnyValues($data) ];
+        $errors = array_reduce($validationResults, $mergeErrors, []);
 
         return empty($errors) ? Ok::unit() : Error::unit($errors);
     }
