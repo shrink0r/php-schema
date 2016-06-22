@@ -5,6 +5,7 @@ namespace Shrink0r\Configr\Tests\Property;
 use PHPUnit_Framework_TestCase;
 use Shrink0r\Configr\Error;
 use Shrink0r\Configr\Ok;
+use Shrink0r\Configr\Factory;
 use Shrink0r\Configr\Property\AssocProperty;
 use Shrink0r\Configr\SchemaInterface;
 
@@ -13,6 +14,9 @@ class AssocPropertyTest extends PHPUnit_Framework_TestCase
     public function testValidateOk()
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+        $mockSchema->method('getFactory')
+             ->willReturn(new Factory());
+
         $definition = [
             'required' => true,
             'properties' => [
@@ -44,6 +48,9 @@ class AssocPropertyTest extends PHPUnit_Framework_TestCase
     public function testValidateError()
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+        $mockSchema->method('getFactory')
+             ->willReturn(new Factory());
+
         $definition = [
             'required' => true,
             'properties' => [

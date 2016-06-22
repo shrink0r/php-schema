@@ -36,4 +36,11 @@ interface SchemaInterface
      * @return PropertyInterface[]
      */
     public function getProperties();
+
+    /**
+     * Returns the factory, that is used by the schema.
+     *
+     * @return FactoryInterface
+     */
+    public function getFactory();
 }

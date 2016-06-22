@@ -5,6 +5,7 @@ namespace Shrink0r\Configr\Tests;
 use PHPUnit_Framework_TestCase;
 use Shrink0r\Configr\Error;
 use Shrink0r\Configr\Exception;
+use Shrink0r\Configr\Factory;
 use Shrink0r\Configr\Schema;
 
 class SchemaTest extends PHPUnit_Framework_TestCase
@@ -14,7 +15,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      */
     public function testValidate(array $givenSchema, array $givenData, array $expectedErrors)
     {
-        $schema = new Schema('command_bus', $givenSchema);
+        $schema = new Schema('command_bus', $givenSchema, new Factory());
         $result = $schema->validate($givenData);
 
         $this->assertInstanceOf(Error::class, $result);
@@ -23,20 +24,24 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 
     public function testGetters()
     {
-        $schema = new Schema('address', [
-            'type' => 'assoc',
-            'properties' => [
-                'street' => [ 'type' => 'string' ],
-                'zipcode' => [ 'type' => 'string' ],
-                'coords' => [
-                    'type' => 'assoc',
-                    'properties' => [
-                        'lon' => [ 'type' => 'float' ],
-                        'lat' => [ 'type' => 'float' ]
+        $schema = new Schema(
+            'address',
+            [
+                'type' => 'assoc',
+                'properties' => [
+                    'street' => [ 'type' => 'string' ],
+                    'zipcode' => [ 'type' => 'string' ],
+                    'coords' => [
+                        'type' => 'assoc',
+                        'properties' => [
+                            'lon' => [ 'type' => 'float' ],
+                            'lat' => [ 'type' => 'float' ]
+                        ]
                     ]
                 ]
-            ]
-        ]);
+            ],
+            new Factory()
+        );
 
         $this->assertCount(3, $schema->getProperties());
         $this->assertEquals('assoc', $schema->getType());
@@ -45,14 +50,18 @@ class SchemaTest extends PHPUnit_Framework_TestCase
     public function testInvalidPropertyType()
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Unsupported property-type 'foo' given.");
+        $this->expectExceptionMessage("Given property type 'foo' has not been registered.");
 
-        new Schema('address', [
-            'type' => 'assoc',
-            'properties' => [
-                'street' => [ 'type' => 'foo' ]
-            ]
-        ]);
+        new Schema(
+            'address',
+            [
+                'type' => 'assoc',
+                'properties' => [
+                    'street' => [ 'type' => 'foo' ]
+                ]
+            ],
+            new Factory()
+        );
     } // @codeCoverageIgnore
 
     public function testMissingPropertiesKey()
@@ -60,7 +69,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage("Missing valid value for 'properties' key within given schema.");
 
-        new Schema('address', [ 'type' => 'assoc' ]);
+        new Schema('address', [ 'type' => 'assoc' ], new Factory());
     } // @codeCoverageIgnore
 
     /**

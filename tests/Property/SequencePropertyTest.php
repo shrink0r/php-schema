@@ -6,6 +6,7 @@ use PHPUnit_Framework_TestCase;
 use Shrink0r\Configr\Error;
 use Shrink0r\Configr\Exception;
 use Shrink0r\Configr\Ok;
+use Shrink0r\Configr\Factory;
 use Shrink0r\Configr\Property\SequenceProperty;
 use Shrink0r\Configr\SchemaInterface;
 
@@ -14,6 +15,8 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
     public function testValidateOk()
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+        $mockSchema->method('getFactory')
+             ->willReturn(new Factory());
 
         $property = new SequenceProperty(
             $mockSchema,
@@ -31,6 +34,8 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
     public function testValidateError()
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+        $mockSchema->method('getFactory')
+             ->willReturn(new Factory());
 
         $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'fqcn' ] ]);
         $result = $property->validate([ SequenceProperty::class, TheVoid::class ]);
@@ -43,6 +48,8 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
     public function testInvalidValue()
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+        $mockSchema->method('getFactory')
+             ->willReturn(new Factory());
 
         $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'fqcn' ] ]);
         $result = $property->validate('meh');
@@ -55,6 +62,8 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
     public function testValidateAnyOk()
     {
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+        $mockSchema->method('getFactory')
+             ->willReturn(new Factory());
 
         $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'any' ] ]);
         $result = $property->validate([ 23, 'foobar', [ 'foo', 'bar' ] ]);
@@ -68,6 +77,8 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
         $this->expectExceptionMessage("Unable to resolve 'moep' to a custom type-definition.");
 
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+        $mockSchema->method('getFactory')
+             ->willReturn(new Factory());
 
         $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ '&moep' ] ]);
         $property->validate([ 23 ]);
@@ -76,9 +87,11 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
     public function testInvalidPropertyType()
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Unsupported property-type 'moep' given.");
+        $this->expectExceptionMessage("Given property type 'moep' has not been registered.");
 
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
+        $mockSchema->method('getFactory')
+             ->willReturn(new Factory());
 
         $property = new SequenceProperty($mockSchema, 'value', [ 'required' => true, 'one_of' => [ 'moep' ] ]);
         $property->validate([ 23 ]);

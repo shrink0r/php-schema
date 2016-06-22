@@ -2,18 +2,7 @@
 
 namespace Shrink0r\Configr;
 
-use Shrink0r\Configr\Property\AssocProperty;
-use Shrink0r\Configr\Property\BoolProperty;
-use Shrink0r\Configr\Property\ChoiceProperty;
-use Shrink0r\Configr\Property\EnumProperty;
-use Shrink0r\Configr\Property\FloatProperty;
-use Shrink0r\Configr\Property\FqcnProperty;
-use Shrink0r\Configr\Property\IntProperty;
-use Shrink0r\Configr\Property\Property;
 use Shrink0r\Configr\Property\PropertyInterface;
-use Shrink0r\Configr\Property\ScalarProperty;
-use Shrink0r\Configr\Property\SequenceProperty;
-use Shrink0r\Configr\Property\StringProperty;
 
 /**
  * Default implementation of the SchemaInterface.
@@ -21,9 +10,9 @@ use Shrink0r\Configr\Property\StringProperty;
 class Schema implements SchemaInterface
 {
     /**
-     * @var PropertyInterface $parentProperty
+     * @var PropertyInterface $parent
      */
-    protected $parentProperty;
+    protected $parent;
 
     /**
      * @var PropertyInterface[] $properties
@@ -36,33 +25,27 @@ class Schema implements SchemaInterface
     protected $customTypes = [];
 
     /**
-     * @param string $name The name of the schema.
-     * @param mixed[] $schema The schema definition.
-     * @param PropertyInterface $parentProperty If created below a prop (assoc, etc.) this will hold that property.
+     * @var Factory
      */
-    public function __construct(
-        $name,
-        array $schema,
-        PropertyInterface $parentProperty = null
-    ) {
+    protected $factory;
+
+    /**
+     * @param string $key The name of the schema.
+     * @param mixed[] $schema Must contain keys for 'type', 'properties' and 'customTypes'.
+     * @param Factory $factory Will be used to create objects while processing the given schema.
+     * @param PropertyInterface $parent If created below a prop (assoc, etc.) this will hold that property.
+     */
+    public function __construct($key, array $schema, FactoryInterface $factory, PropertyInterface $parent = null)
+    {
         $this->type = $schema['type'];
-        $this->parentProperty = $parentProperty;
+        $this->parent = $parent;
+        $this->factory = $factory;
 
-        $customTypes = isset($schema['customTypes']) ? $schema['customTypes'] : [];
-        if (is_array($customTypes)) {
-            foreach ($customTypes as $name => $definition) {
-                $this->customTypes[$name] = new Schema($name, $definition, $parentProperty);
-            }
+        list($customTypes, $properties) = $this->validateSchema($schema);
+        foreach ($customTypes as $key => $definition) {
+            $this->customTypes[$key] = $this->factory->createSchema($key, $definition, $parent);
         }
-
-        $properties = isset($schema['properties']) ? $schema['properties'] : null;
-        if (!is_array($properties)) {
-            throw new Exception("Missing valid value for 'properties' key within given schema.");
-        }
-        foreach ($properties as $name => $definition) {
-            $property = $this->createProperty($name, $definition);
-            $this->properties[$property->getName()] = $property;
-        }
+        $this->properties = $this->factory->createProperties($properties, $this, $parent);
     }
 
     /**
@@ -72,24 +55,24 @@ class Schema implements SchemaInterface
     {
         $errors = [];
         foreach ($this->properties as $property) {
-            $propName = $property->getName();
-            if ($propName === ':any_name:') {
+            $key = $property->getName();
+            if ($key === ':any_name:') {
                 continue;
             }
-            if (!array_key_exists($propName, $data) && $property->isRequired()) {
-                $errors[$propName] = [ Error::MISSING_KEY ];
+            if (!array_key_exists($key, $data) && $property->isRequired()) {
+                $errors[$key] = [ Error::MISSING_KEY ];
                 continue;
             }
-            $value = isset($data[$propName]) ? $data[$propName] : null;
+            $value = isset($data[$key]) ? $data[$key] : null;
             if (is_null($value)) {
                 if ($property->isRequired()) {
-                    $errors[$propName] = [ Error::MISSING_VALUE ];
+                    $errors[$key] = [ Error::MISSING_VALUE ];
                 }
                 continue;
             }
             $result = $property->validate($value);
             if ($result instanceof Error) {
-                $errors[$propName] = $result->unwrap();
+                $errors[$key] = $result->unwrap();
             }
         }
         if (isset($this->properties[':any_name:'])) {
@@ -129,56 +112,32 @@ class Schema implements SchemaInterface
     }
 
     /**
-     * Create a property from the give property definition.
-     *
-     * @param string $name
-     * @param mixed[] $definition
-     *
-     * @return PropertyInterface
+     * {@inheritdoc}}
      */
-    protected function createProperty($name, array $definition)
+    public function getFactory()
     {
-        $type = $definition['type'];
-        unset($definition['type']);
+        return $this->factory;
+    }
 
-        switch ($type) {
-            case 'scalar':
-                $property = new ScalarProperty($this, $name, $definition, $this->parentProperty);
-                break;
-            case 'bool':
-                $property = new BoolProperty($this, $name, $definition, $this->parentProperty);
-                break;
-            case 'string':
-                $property = new StringProperty($this, $name, $definition, $this->parentProperty);
-                break;
-            case 'int':
-                $property = new IntProperty($this, $name, $definition, $this->parentProperty);
-                break;
-            case 'float':
-                $property = new FloatProperty($this, $name, $definition, $this->parentProperty);
-                break;
-            case 'any':
-                $property = new Property($this, $name, $definition, $this->parentProperty);
-                break;
-            case 'assoc':
-                $property = new AssocProperty($this, $name, $definition, $this->parentProperty);
-                break;
-            case 'sequence':
-                $property = new SequenceProperty($this, $name, $definition, $this->parentProperty);
-                break;
-            case 'fqcn':
-                $property = new FqcnProperty($this, $name, $definition, $this->parentProperty);
-                break;
-            case 'enum':
-                $property = new EnumProperty($this, $name, $definition, $this->parentProperty);
-                break;
-            case 'choice':
-                $property = new ChoiceProperty($this, $name, $definition, $this->parentProperty);
-                break;
-            default:
-                throw new Exception("Unsupported property-type '$type' given.");
+    /**
+     * Ensures that the given schema has valid values and yields defaults where available.
+     *
+     * @param mixed[] $schema
+     *
+     * @return mixed[] Returns the given schema plus defaults where applicable.
+     */
+    protected function validateSchema(array $schema)
+    {
+        $customTypes = isset($schema['customTypes']) ? $schema['customTypes'] : [];
+        if (!is_array($customTypes)) {
+            throw new Exception("Given value for key 'customTypes' is not an array.");
         }
 
-        return $property;
+        $properties = isset($schema['properties']) ? $schema['properties'] : null;
+        if (!is_array($properties)) {
+            throw new Exception("Missing valid value for 'properties' key within given schema.");
+        }
+
+        return [ $customTypes, $properties ];
     }
 }

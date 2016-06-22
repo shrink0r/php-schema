@@ -5,10 +5,6 @@ namespace Shrink0r\Configr\Property;
 use Shrink0r\Configr\Error;
 use Shrink0r\Configr\Exception;
 use Shrink0r\Configr\Ok;
-use Shrink0r\Configr\Property\BoolProperty;
-use Shrink0r\Configr\Property\FloatProperty;
-use Shrink0r\Configr\Property\IntProperty;
-use Shrink0r\Configr\Property\StringProperty;
 use Shrink0r\Configr\SchemaInterface;
 
 class SequenceProperty extends EnumProperty
