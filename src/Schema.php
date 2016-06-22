@@ -67,14 +67,16 @@ class Schema implements SchemaInterface
     {
         $errors = [];
 
-        $mergeErrors = function (ResultInterface $result) use (&$errors) {
+        $mergeErrors = function (array $errors, ResultInterface $result) {
             if ($result instanceof Error) {
-                $errors = array_merge($errors, $result->unwrap());
+                return array_merge($errors, $result->unwrap());
             }
+            return $errors;
         };
-
-        $mergeErrors($this->validateMappedValues($data));
-        $mergeErrors($this->validateAnyValues($data));
+        $errors = $mergeErrors(
+            $mergeErrors($errors, $this->validateMappedValues($data)),
+            $this->validateAnyValues($data)
+        );
 
         return empty($errors) ? Ok::unit() : Error::unit($errors);
     }
