@@ -15,7 +15,7 @@ class Ok implements ResultInterface
     /**
      * Creates a new Ok instance, which holds the given return data.
      *
-     * @param mixed[] $data
+     * @param mixed $data
      *
      * @return Ok
      */
@@ -27,9 +27,9 @@ class Ok implements ResultInterface
     }
 
     /**
-     * @param mixed[] $data
+     * @param mixed $data
      */
-    public function __construct(array $data)
+    public function __construct($data)
     {
         $this->data = $data;
     }
@@ -37,7 +37,7 @@ class Ok implements ResultInterface
     /**
      * Unwrap the return data, held by an Ok instance.
      *
-     * @return mixed[]
+     * @return mixed
      */
     public function unwrap()
     {

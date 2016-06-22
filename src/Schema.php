@@ -66,11 +66,13 @@ class Schema implements SchemaInterface
     public function validate(array $data)
     {
         $errors = [];
+
         $mergeErrors = function (ResultInterface $result) use (&$errors) {
             if ($result instanceof Error) {
                 $errors = array_merge($errors, $result->unwrap());
             }
         };
+
         $mergeErrors($this->validateMappedValues($data));
         $mergeErrors($this->validateAnyValues($data));
 
@@ -129,18 +131,10 @@ class Schema implements SchemaInterface
         $errors = [];
 
         foreach (array_diff_key($this->properties, [ ':any_name:' => 1 ]) as $key => $property) {
-            if (!array_key_exists($key, $data) && $property->isRequired()) {
-                $errors[$key] = [ Error::MISSING_KEY ];
-                continue;
+            $result = $this->selectValue($property, $data);
+            if ($result instanceof Ok) {
+                $result = $property->validate($result->unwrap());
             }
-            $value = isset($data[$key]) ? $data[$key] : null;
-            if (is_null($value)) {
-                if ($property->isRequired()) {
-                    $errors[$key] = [ Error::MISSING_VALUE ];
-                }
-                continue;
-            }
-            $result = $property->validate($value);
             if ($result instanceof Error) {
                 $errors[$key] = $result->unwrap();
             }
@@ -171,6 +165,31 @@ class Schema implements SchemaInterface
         }
 
         return empty($errors) ? Ok::unit() : Error::unit($errors);
+    }
+
+    /**
+     * Returns the property's corresponding value from the given data array.
+     *
+     * @param PropertyInterface $property
+     * @param array $data
+     *
+     * @return ResultInterface If the value does not exist an error is returned; otherwise Ok is returned.
+     */
+    protected function selectValue(PropertyInterface $property, array $data)
+    {
+        $errors = [];
+
+        $key = $property->getName();
+        if (!array_key_exists($key, $data) && $property->isRequired()) {
+            $errors[] = Error::MISSING_KEY;
+        }
+
+        $value = isset($data[$key]) ? $data[$key] : null;
+        if (is_null($value) && $property->isRequired()) {
+            $errors[] = Error::MISSING_VALUE;
+        }
+
+        return empty($errors) ? Ok::unit($value) : Error::unit($errors);
     }
 
     /**
