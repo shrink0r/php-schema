@@ -65,6 +65,22 @@ class SchemaTest extends PHPUnit_Framework_TestCase
         );
     } // @codeCoverageIgnore
 
+    public function testInvalidCustomTypes()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("Given value for key 'customTypes' is not an array.");
+
+        new Schema(
+            'address',
+            [
+                'type' => 'assoc',
+                'properties' => [ 'street' => [ 'type' => 'string' ] ],
+                'customTypes' => 'foobar'
+            ],
+            new Factory()
+        );
+    } // @codeCoverageIgnore
+
     public function testMissingPropertiesKey()
     {
         $this->expectException(Exception::class);

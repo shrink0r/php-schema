@@ -89,5 +89,5 @@ class AssocPropertyTest extends PHPUnit_Framework_TestCase
              ->willReturn(new Factory());
 
         new AssocProperty($mockSchema, 'address', []);
-    }
+    } // @codeCoverageIgnore
 }

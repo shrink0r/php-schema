@@ -70,7 +70,7 @@ class FactoryTest extends PHPUnit_Framework_TestCase
         );
 
         $factory = new Factory([ 'scalar' => Void::class ]);
-    }
+    } // @codeCoverageIgnore
 
     public function testCreatePropertyWithMissingType()
     {
@@ -80,7 +80,7 @@ class FactoryTest extends PHPUnit_Framework_TestCase
         $factory = new Factory();
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $factory->createProperty([ 'name' => 'foo' ], $mockSchema);
-    }
+    } // @codeCoverageIgnore
 
     public function testCreatePropertyWithMissingName()
     {
@@ -90,7 +90,7 @@ class FactoryTest extends PHPUnit_Framework_TestCase
         $factory = new Factory();
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $factory->createProperty([ 'type' => 'scalar' ], $mockSchema);
-    }
+    } // @codeCoverageIgnore
 
     public function testCreatePropertyWithNonRegisteredType()
     {
@@ -100,5 +100,5 @@ class FactoryTest extends PHPUnit_Framework_TestCase
         $factory = new Factory();
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $factory->createProperty([ 'type' => 'foo', 'name' => 'bar' ], $mockSchema);
-    }
+    } // @codeCoverageIgnore
 }
