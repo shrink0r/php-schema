@@ -12,6 +12,8 @@ Lib for building and validating array structures.
 
 ### Step 1: Define a schema
 
+The schema is given an (array)description of the data-structure, that shall be verified upon invocation of the schema's validation routine.
+
 ```php
 <?php
 
@@ -44,6 +46,8 @@ $schema = new Schema('vote', $schemaDefinition, new Factory());
 
 ### Step 2: Utilize the builder
 
+A builder instance is created and using it's fluent api some data is set according to the above schema.
+
 ```php 
 <?php
 
@@ -61,13 +65,15 @@ $builder
 
 ### Step 3: Deal with the result
 
+The builder's build method is invoked passing in some extraData that shall be merged into the result. The builder builds the array, validates it against the schema and returns the result.
+
 ```php
 <?php
 
 use Shrink0r\Configr\Ok;
 
-$externalData = [ 'post_id' => 42, 'rating' => 0.8 ];
-$result = $builder->build($externalData);
+$extraData = [ 'post_id' => 42, 'rating' => 0.8 ];
+$result = $builder->build($extraData);
 
 if ($result instanceof Ok) {
     // everything's good, lets unwrap our data
@@ -84,7 +90,7 @@ if ($result instanceof Ok) {
 
 ```
 
-### Done (additional notes)
+### Finally (additional notes)
 
 The above example is suitable for simple cases and gives an idea of the libraries basic crud. When trying to realize complex schemas it may be helpful to extend or override some of the libraries default behavior.
 
