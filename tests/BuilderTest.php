@@ -245,7 +245,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
             ->end()
             ->foo('value')
         ;
-    }
+    } // @codeCoverageIgnore
 
     /**
      * @expectedException Shrink0r\Configr\Exception
@@ -258,7 +258,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
             ->foo
                 ->bar('value')
         ;
-    }
+    } // @codeCoverageIgnore
 
     public function testBuilderNestingInValue()
     {
@@ -283,10 +283,5 @@ class BuilderTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Ok::class, $result);
         $this->assertEquals($expectedData, $result->unwrap());
-    }
-
-    public function testInvalidBuilderAsValue()
-    {
-        $builder = new Builder();
     }
 }

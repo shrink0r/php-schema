@@ -62,41 +62,43 @@ class FactoryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(SchemaInterface::class, $schema);
     }
 
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     * @expectedExceptionMessage Class 'Shrink0r\Configr\Tests\Void' that has been registered for type 'scalar' does not exist
+     */
     public function testCreateWithNonExistingClass()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "Class 'Shrink0r\Configr\Tests\Void' that has been registered for type 'scalar' does not exist"
-        );
-
         $factory = new Factory([ 'scalar' => Void::class ]);
     } // @codeCoverageIgnore
 
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     * @expectedExceptionMessage Missing required key 'type' within property definition.
+     */
     public function testCreatePropertyWithMissingType()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Missing required key 'type' within property definition.");
-
         $factory = new Factory();
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $factory->createProperty([ 'name' => 'foo' ], $mockSchema);
     } // @codeCoverageIgnore
 
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     * @expectedExceptionMessage Missing required key 'name' within property definition.
+     */
     public function testCreatePropertyWithMissingName()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Missing required key 'name' within property definition.");
-
         $factory = new Factory();
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $factory->createProperty([ 'type' => 'scalar' ], $mockSchema);
     } // @codeCoverageIgnore
 
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     * @expectedExceptionMessage Given property type 'foo' has not been registered.
+     */
     public function testCreatePropertyWithNonRegisteredType()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Given property type 'foo' has not been registered.");
-
         $factory = new Factory();
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $factory->createProperty([ 'type' => 'foo', 'name' => 'bar' ], $mockSchema);

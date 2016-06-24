@@ -48,11 +48,12 @@ class SchemaTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('assoc', $schema->getType());
     }
 
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     * @expectedExceptionMessage Given property type 'foo' has not been registered.
+     */
     public function testInvalidPropertyType()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Given property type 'foo' has not been registered.");
-
         new Schema(
             'address',
             [
@@ -65,11 +66,12 @@ class SchemaTest extends PHPUnit_Framework_TestCase
         );
     } // @codeCoverageIgnore
 
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     * @expectedExceptionMessage Given value for key 'customTypes' is not an array.
+     */
     public function testInvalidCustomTypes()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Given value for key 'customTypes' is not an array.");
-
         new Schema(
             'address',
             [
@@ -81,11 +83,12 @@ class SchemaTest extends PHPUnit_Framework_TestCase
         );
     } // @codeCoverageIgnore
 
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     * @expectedExceptionMessage Missing valid value for 'properties' key within given schema.
+     */
     public function testMissingPropertiesKey()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Missing valid value for 'properties' key within given schema.");
-
         new Schema('address', [ 'type' => 'assoc' ], new Factory());
     } // @codeCoverageIgnore
 

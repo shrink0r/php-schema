@@ -79,11 +79,12 @@ class AssocPropertyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedErrors, $result->unwrap());
     }
 
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     * @expectedExceptionMessage Missing required key 'properties' within assoc definition.
+     */
     public function testMissingProperties()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Missing required key 'properties' within assoc definition.");
-
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $mockSchema->method('getFactory')
              ->willReturn(new Factory());

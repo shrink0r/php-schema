@@ -68,11 +68,12 @@ class EnumPropertyTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Ok::class, $result);
     }
 
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     * @expectedExceptionMessage Unable to resolve 'moep' to a custom type-definition.
+     */
     public function testInvalidCustomType()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Unable to resolve 'moep' to a custom type-definition.");
-
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $mockSchema->method('getFactory')
              ->willReturn(new Factory());
@@ -81,11 +82,12 @@ class EnumPropertyTest extends PHPUnit_Framework_TestCase
         $property->validate(23);
     } // @codeCoverageIgnore
 
+    /**
+     * @expectedException Shrink0r\Configr\Exception
+     * @expectedExceptionMessage Given property type 'moep' has not been registered.
+     */
     public function testInvalidPropertyType()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Given property type 'moep' has not been registered.");
-
         $mockSchema = $this->getMockBuilder(SchemaInterface::class)->getMock();
         $mockSchema->method('getFactory')
              ->willReturn(new Factory());
