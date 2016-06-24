@@ -33,11 +33,9 @@ class Builder implements BuilderInterface, \ArrayAccess
     {
         $builtConfig = $defaults;
         foreach($this->data as $key => $value) {
-            if($value instanceof BuilderInterface) {
-                $builtConfig[$key] = $value->build(isset($defaults[$key]) ? $defaults[$key] : [])->unwrap();
-            } else {
-                $builtConfig[$key] = $value;
-            }
+            $builtConfig[$key] = $value instanceof BuilderInterface
+                ? $value->build(isset($defaults[$key]) ? $defaults[$key] : [])->unwrap()
+                : $value;
         }
 
         if (!$this->schema) {
@@ -128,11 +126,11 @@ class Builder implements BuilderInterface, \ArrayAccess
     public function __get($key)
     {
         if (!isset($this->data[$key])) {
-            $this->data[$key] = new Builder(null, $this);
+            $this->data[$key] = new Builder();
         }
 
-        if(!$this->data[$key] instanceof BuilderInterface) {
-            throw new Exception('Can not access scalar value at "' . $key .'" with accessor. Use valueOf() instead');
+        if (!$this->data[$key] instanceof BuilderInterface) {
+            throw new Exception("Can not access scalar value at '$key' with accessor. Use valueOf() instead");
         }
 
         return new BuilderStack([$this, $this->data[$key]]);
@@ -150,19 +148,19 @@ class Builder implements BuilderInterface, \ArrayAccess
      */
     public function __set($key, $value)
     {
-        if(is_array($value)) {
-            $builder = new Builder(null, $this);
+        if (is_array($value)) {
+            $builder = new Builder();
             foreach($value as $k => $v) {
                 $builder->{$k} = $v;
             }
             $value = $builder;
         }
 
-        if(isset($this->data[$key])) {
+        if (isset($this->data[$key])) {
             $valueIsBuilder = $value instanceof BuilderInterface;
             $dataIsBuilder = $this->data[$key] instanceof BuilderInterface;
             if($dataIsBuilder !== $valueIsBuilder) {
-                throw new Exception('Trying to overwrite value at "' . $key . '" with incompatible data');
+                throw new Exception("Trying to overwrite value at '$key' with incompatible data");
             }
         }
         $this->data[$key] = $value;
@@ -183,7 +181,7 @@ class Builder implements BuilderInterface, \ArrayAccess
      *
      * @param string $key
      */
-    public function  __unset($key)
+    public function __unset($key)
     {
         unset($this->data[$key]);
     }

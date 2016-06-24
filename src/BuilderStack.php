@@ -19,7 +19,7 @@ class BuilderStack implements BuilderInterface, \ArrayAccess
      */
     public function __construct(array $builders)
     {
-        if(count($builders) === 0) {
+        if (count($builders) === 0) {
             throw new Exception('BuilderStack can not be empty');
         }
         $this->builders = $builders;
@@ -62,7 +62,7 @@ class BuilderStack implements BuilderInterface, \ArrayAccess
      */
     public function end()
     {
-        if(count($this->builders) === 1) {
+        if (count($this->builders) === 1) {
             return $this->builders[0];
         }
         return new BuilderStack(array_slice($this->builders, 0, -1));
@@ -134,8 +134,8 @@ class BuilderStack implements BuilderInterface, \ArrayAccess
     public function __get($key)
     {
         $value = $this->last()->{$key};
-        if($value instanceof self) {
-            if($this->last() !== $value->first()) {
+        if ($value instanceof self) {
+            if ($this->last() !== $value->first()) {
                 throw new Exception('Trying to merge incompatible BuilderStacks');
             }
             return new BuilderStack(array_merge($this->builders, array_slice($value->builders, 1)));
