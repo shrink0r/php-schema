@@ -92,7 +92,7 @@ if ($result instanceof Ok) {
 
 ### Finally
 
-The above example is suitable for simple cases and gives an idea of the libraries basic crud. When trying to realize complex schemas it may be helpful to extend or override some of the libraries default behavior.
+The above example is suitable for simple cases and gives an idea of the library's basic crud. When trying to realize complex schemas it may be helpful to extend or override some of the library's default behavior.
 
 **add/override properties**
 
