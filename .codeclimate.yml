@@ -11,6 +11,7 @@ engines:
     enabled: true
     exclude_fingerprints:
       - b282baf1988d989fb4f33e305f33092b
+      - 517fa2f08bf27aa1e831876236a5b34a
     checks:
       CleanCode/StaticAccess:
         enabled: false

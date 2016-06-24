@@ -120,10 +120,16 @@ class BuilderTest extends PHPUnit_Framework_TestCase
         }
         $this->assertEquals('foobar!', $builder['foo']->valueOf('bar'));
         $this->assertNull($builder['foo']->valueOf('greetings'));
-
         $result = $builder->build();
         $this->assertInstanceOf(Ok::class, $result);
         $this->assertEquals([ 'foo' => [ 'bar' => 'foobar!' ] ], $result->unwrap());
+
+        if (isset($builder->foo)) {
+            unset($builder->foo);
+        }
+        $result = $builder->build();
+        $this->assertInstanceOf(Ok::class, $result);
+        $this->assertEquals([], $result->unwrap());
     }
 
     public function testEnd()
@@ -135,7 +141,10 @@ class BuilderTest extends PHPUnit_Framework_TestCase
                     ->greetings('hello world!')
                 ->end()
             ->end();
+
         $this->assertEquals('hello world!', $builder->foo->bar->valueOf('greetings'));
+        // the BuilderStack should not not allow to drop the root builder.
+        $this->assertEquals('hello world!', $builder->end()->end()->foo->bar->valueOf('greetings'));
 
         $builder = new Builder;
         $builder = $builder
@@ -145,6 +154,23 @@ class BuilderTest extends PHPUnit_Framework_TestCase
                 ->end();
 
         $this->assertEquals('hello world!', $builder->bar->valueOf('greetings'));
+    }
+
+    public function testRewind()
+    {
+        $builder = new Builder;
+        $stack = $builder
+            ->end()
+            ->rewind()
+            ->foo
+                ->bar
+                    ->message("hello world!")
+            ->rewind()
+            ->foo
+                ->bar;
+
+        $this->assertEquals('hello world!', $stack->valueOf('message'));
+        $this->assertEquals('hello world!', $stack->rewind()['foo']['bar']->valueOf('message'));
     }
 
     public function testEndNesting() {
@@ -257,5 +283,10 @@ class BuilderTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Ok::class, $result);
         $this->assertEquals($expectedData, $result->unwrap());
+    }
+
+    public function testInvalidBuilderAsValue()
+    {
+        $builder = new Builder();
     }
 }
