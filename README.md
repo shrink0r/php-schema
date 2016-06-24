@@ -86,9 +86,11 @@ if ($result instanceof Ok) {
 
 ### Done (additional notes)
 
-When needing more than the shipped default functionality, additional properties can by registered to the factory and existing one's may be overridden. See the following example.
+The above example is suitable for simple cases and gives an idea of the libraries basic crud. When trying to realize complex schemas it may be helpful to extend or override some of the libraries default behavior.
 
 **add/override properties**
+
+When needing more than the shipped default functionality, additional properties can by registered to the factory and existing one's may be overridden. See the following example.
 
 ```php
 <?php
@@ -109,9 +111,7 @@ $schema = new Schema('my_type', $schemaDefinition, new Factory($myClassMap));
 
 ```
 
-Next to 
-
-**custom types**
+**define custom/complex types**
 
 Next to inlining nested-types by using the **assoc** property, you can define a **customTypes** key in your schema and define types that may be referred to from other parts of the schema:
 
