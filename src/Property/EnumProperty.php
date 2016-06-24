@@ -39,8 +39,8 @@ class EnumProperty extends Property
     public function validate($value)
     {
         foreach ($this->allowedTypes as $type) {
-            $result = (preg_match('/^&/', $type) ? $this->getCustomType($type) : $this->createProperty($type))
-                ->validate($value);
+            $typeChecker = preg_match('/^&/', $type) ? $this->getCustomType($type) : $this->createProperty($type);
+            $result = $typeChecker->validate($value);
 
             if ($result instanceof Ok) {
                 return $result;
