@@ -147,6 +147,45 @@ class BuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('hello world!', $builder->bar->valueOf('greetings'));
     }
 
+    public function testEndNesting() {
+        $builder = new Builder();
+        $result = $builder
+            ->firstLevel1
+                ->secondLevel1
+                    ->key1('value1')
+                ->end()
+                ->key2('value2')
+                ->secondLevel2
+                    ->key3('value3')
+                ->end()
+            ->end()
+            ->firstLevel2
+                ->key4('value4')
+            ->end()
+            ->key5('value5')
+            ->build()
+        ;
+
+        $expectedData = [
+            'firstLevel1' => [
+                'secondLevel1' => [
+                    'key1' => 'value1',
+                ],
+                'key2' => 'value2',
+                'secondLevel2' => [
+                    'key3' => 'value3',
+                ],
+            ],
+            'firstLevel2' => [
+                'key4' => 'value4',
+            ],
+            'key5' => 'value5',
+        ];
+
+        $this->assertInstanceOf(Ok::class, $result);
+        $this->assertEquals($expectedData, $result->unwrap());
+    }
+
     public function testCanAccessArrayAfterInsert()
     {
         $builder = new Builder();
