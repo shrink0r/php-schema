@@ -65,7 +65,7 @@ $builder
 
 ### Step 3: Deal with the result
 
-The builder's build method is invoked passing in some extraData that shall be merged into the result. The builder builds the array, validates it against the schema and returns the result.
+The builder's build method is invoked passing in some extraData, that will be merged into the result. The builder builds the array, validates it against the schema and returns the result.
 
 ```php
 <?php
@@ -90,7 +90,7 @@ if ($result instanceof Ok) {
 
 ```
 
-### Finally (additional notes)
+### Finally
 
 The above example is suitable for simple cases and gives an idea of the libraries basic crud. When trying to realize complex schemas it may be helpful to extend or override some of the libraries default behavior.
 
