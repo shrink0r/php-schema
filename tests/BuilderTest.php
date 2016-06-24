@@ -138,7 +138,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('hello world!', $builder->foo->bar->valueOf('greetings'));
 
         $builder = new Builder;
-        $builder
+        $builder = $builder
             ->foo
                 ->bar
                     ->greetings('hello world!')
