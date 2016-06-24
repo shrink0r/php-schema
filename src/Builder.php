@@ -13,16 +13,6 @@ class Builder implements BuilderInterface, \ArrayAccess
     protected $data;
 
     /**
-     * @var string[] $valuePath Holds the keys leading to the current data slice.
-     */
-    protected $valuePath;
-
-    /**
-     * @var mixed[] $valuePtr Holds a reference to a slice of the data.
-     */
-    protected $valuePtr;
-
-    /**
      * @var SchemaInterface $schema
      */
     protected $schema;
@@ -33,9 +23,7 @@ class Builder implements BuilderInterface, \ArrayAccess
     public function __construct(SchemaInterface $schema = null)
     {
         $this->data = [];
-        $this->valuePath = [];
         $this->schema = $schema;
-        $this->valuePtr = &$this->data;
     }
 
     /**
@@ -43,7 +31,15 @@ class Builder implements BuilderInterface, \ArrayAccess
      */
     public function build(array $defaults = [])
     {
-        $builtConfig = array_replace_recursive($defaults, $this->data);
+        $builtConfig = $defaults;
+        foreach($this->data as $key => $value) {
+            if($value instanceof BuilderInterface) {
+                $builtConfig[$key] = $value->build(isset($defaults[$key]) ? $defaults[$key] : [])->unwrap();
+            } else {
+                $builtConfig[$key] = $value;
+            }
+        }
+
         if (!$this->schema) {
             return Ok::unit($builtConfig);
         }
@@ -57,10 +53,7 @@ class Builder implements BuilderInterface, \ArrayAccess
      */
     public function valueOf($key)
     {
-        $value = isset($this->valuePtr[$key]) ? $this->valuePtr[$key] : null;
-        $this->rewind();
-
-        return $value;
+        return isset($this->data[$key]) ? $this->data[$key] : null;
     }
 
     /**
@@ -68,16 +61,6 @@ class Builder implements BuilderInterface, \ArrayAccess
      */
     public function end()
     {
-        $valuePath = $this->valuePath;
-
-        $this->rewind();
-
-        array_pop($valuePath);
-        while (!empty($valuePath)) {
-            $curPath = array_shift($valuePath);
-            $this->{$curPath};
-        }
-
         return $this;
     }
 
@@ -86,15 +69,11 @@ class Builder implements BuilderInterface, \ArrayAccess
      */
     public function rewind()
     {
-        $this->valuePath = [];
-        $this->valuePtr = &$this->data;
-
         return $this;
     }
 
     /**
-     * Tells if the given key exists relative to the builder's current position.
-     * Rewinds the builder.
+     * Tells if the given key exists.
      *
      * @param string $key
      *
@@ -102,10 +81,7 @@ class Builder implements BuilderInterface, \ArrayAccess
      */
     public function offsetExists($key)
     {
-        $exists = isset($this->valuePtr[$key]);
-        $this->rewind();
-
-        return $exists;
+        return isset($this->{$key});
     }
 
     /**
@@ -113,7 +89,7 @@ class Builder implements BuilderInterface, \ArrayAccess
      *
      * @param string $key
      *
-     * @return BuilderInterface Returns self
+     * @return BuilderInterface The nested BuilderInterface at $key
      */
     public function offsetGet($key)
     {
@@ -121,8 +97,7 @@ class Builder implements BuilderInterface, \ArrayAccess
     }
 
     /**
-     * Assign a given value to the given key relative to the buider's current position.
-     * Rewinds the builder afterwards, so any proceeding accesses must start from root again.
+     * Assign a given value to the given key.
      *
      * @param string $key
      * @param mixed $value
@@ -130,23 +105,16 @@ class Builder implements BuilderInterface, \ArrayAccess
     public function offsetSet($key, $value)
     {
         $this->{$key} = $value;
-
-        return $this;
     }
 
     /**
-     * Unset the given key relative to the buider's current position.
-     * Rewinds the builder afterwards, so any proceeding accesses must start from root again.
+     * Unset the given key.
      *
      * @param string $key
-     * @param mixed $value
      */
     public function offsetUnset($key)
     {
-        if (isset($this->valuePtr[$key])) {
-            unset($this->valuePtr[$key]);
-        }
-        $this->rewind();
+        unset($this->{$key});
     }
 
     /**
@@ -154,30 +122,70 @@ class Builder implements BuilderInterface, \ArrayAccess
      *
      * @param string $key
      *
-     * @return BuilderInterface Returns self
+     * @return BuilderInterface Returns a new BuilderStack instance representing
+     *                          the current access path.
      */
     public function __get($key)
     {
-        if (!isset($this->valuePtr[$key])) {
-            $this->valuePtr[$key] = [];
+        if (!isset($this->data[$key])) {
+            $this->data[$key] = new Builder(null, $this);
         }
-        $this->valuePath[] = $key;
-        $this->valuePtr = &$this->valuePtr[$key];
 
-        return $this;
+        if(!$this->data[$key] instanceof BuilderInterface) {
+            throw new Exception('Can not access scalar value at "' . $key .'" with accessor. Use valueOf() instead');
+        }
+
+        return new BuilderStack([$this, $this->data[$key]]);
     }
 
     /**
-     * Assign a given value to the given key relative to the buider's current position.
-     * Rewinds the builder afterwards, so any proceeding accesses must start from root again.
+     * Assign a given value to the given key. If an array is given it is
+     * recursively converted to Builder objects. BuilderInterface instances
+     * can be used to insert another Builder in the given location.
+     * Changing the value from a child Builder to another value or other way
+     * around is not possible.
      *
      * @param string $key
      * @param mixed $value
      */
     public function __set($key, $value)
     {
-        $this->valuePtr[$key] = $value;
-        $this->rewind();
+        if(is_array($value)) {
+            $builder = new Builder(null, $this);
+            foreach($value as $k => $v) {
+                $builder->{$k} = $v;
+            }
+            $value = $builder;
+        }
+
+        if(isset($this->data[$key])) {
+            $valueIsBuilder = $value instanceof BuilderInterface;
+            $dataIsBuilder = $this->data[$key] instanceof BuilderInterface;
+            if($dataIsBuilder !== $valueIsBuilder) {
+                throw new Exception('Trying to overwrite value at "' . $key . '" with incompatible data');
+            }
+        }
+        $this->data[$key] = $value;
+    }
+
+    /**
+     * Tells if the given key exists.
+     *
+     * @param string $key
+     */
+    public function __isset($key)
+    {
+        return isset($this->data[$key]);
+    }
+
+    /**
+     * Unset the given key.
+     *
+     * @param string $key
+     */
+    public function  __unset($key)
+    {
+        unset($this->data[$key]);
     }
 
     /**
@@ -192,7 +200,7 @@ class Builder implements BuilderInterface, \ArrayAccess
     public function __call($key, array $args = [])
     {
         if (count($args) !== 0) {
-            $this->valuePtr[$key] = $args[0];
+            $this->{$key} = $args[0];
         }
 
         return $this;
