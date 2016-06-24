@@ -213,7 +213,7 @@ $schemaDefinition = [
     "type" => "enum"
     "required" => true|false,
     "one_of" => [ "int", "float", "&wgs84" ]
-    // **&comment** being a reference to a defined custom type
+    // **&wgs84** being a reference to a defined custom type
 ]
 ```
 
@@ -270,7 +270,7 @@ $schemaDefinition = [
     "type" => "sequence"
     "required" => true|false,
     "one_of" => [ "string", "bool", "&wgs84" ]
-    // **&comment** being a reference to a defined custom type
+    // **&wgs84** being a reference to a defined custom type
 ]
 ```
 
