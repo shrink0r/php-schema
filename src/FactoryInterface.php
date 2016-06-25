@@ -1,9 +1,9 @@
 <?php
 
-namespace Shrink0r\Configr;
+namespace Shrink0r\PhpSchema;
 
-use Shrink0r\Configr\Property\PropertyInterface;
-use Shrink0r\Configr\SchemaInterface;
+use Shrink0r\PhpSchema\Property\PropertyInterface;
+use Shrink0r\PhpSchema\SchemaInterface;
 
 interface FactoryInterface
 {

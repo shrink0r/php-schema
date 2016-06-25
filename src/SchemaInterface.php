@@ -1,6 +1,6 @@
 <?php
 
-namespace Shrink0r\Configr;
+namespace Shrink0r\PhpSchema;
 
 /**
  * A schema validates that an array adheres to a concrete structure definition.

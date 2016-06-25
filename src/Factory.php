@@ -1,19 +1,19 @@
 <?php
 
-namespace Shrink0r\Configr;
+namespace Shrink0r\PhpSchema;
 
-use Shrink0r\Configr\Property\AssocProperty;
-use Shrink0r\Configr\Property\BoolProperty;
-use Shrink0r\Configr\Property\ChoiceProperty;
-use Shrink0r\Configr\Property\EnumProperty;
-use Shrink0r\Configr\Property\FloatProperty;
-use Shrink0r\Configr\Property\FqcnProperty;
-use Shrink0r\Configr\Property\IntProperty;
-use Shrink0r\Configr\Property\Property;
-use Shrink0r\Configr\Property\PropertyInterface;
-use Shrink0r\Configr\Property\ScalarProperty;
-use Shrink0r\Configr\Property\SequenceProperty;
-use Shrink0r\Configr\Property\StringProperty;
+use Shrink0r\PhpSchema\Property\AssocProperty;
+use Shrink0r\PhpSchema\Property\BoolProperty;
+use Shrink0r\PhpSchema\Property\ChoiceProperty;
+use Shrink0r\PhpSchema\Property\EnumProperty;
+use Shrink0r\PhpSchema\Property\FloatProperty;
+use Shrink0r\PhpSchema\Property\FqcnProperty;
+use Shrink0r\PhpSchema\Property\IntProperty;
+use Shrink0r\PhpSchema\Property\Property;
+use Shrink0r\PhpSchema\Property\PropertyInterface;
+use Shrink0r\PhpSchema\Property\ScalarProperty;
+use Shrink0r\PhpSchema\Property\SequenceProperty;
+use Shrink0r\PhpSchema\Property\StringProperty;
 
 class Factory implements FactoryInterface
 {

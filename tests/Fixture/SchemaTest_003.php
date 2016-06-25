@@ -50,10 +50,10 @@ $givenData = [
 ];
 
 $expectedErrors = [
-    'tags' => [ 1 => [ Shrink0r\Configr\Error::NON_STRING ] ],
+    'tags' => [ 1 => [ Shrink0r\PhpSchema\Error::NON_STRING ] ],
     'address' => [
-        'city' => [ Shrink0r\Configr\Error::INVALID_CHOICE ],
-        'coords' => [ 'lat' => [ Shrink0r\Configr\Error::NON_FLOAT ]]
+        'city' => [ Shrink0r\PhpSchema\Error::INVALID_CHOICE ],
+        'coords' => [ 'lat' => [ Shrink0r\PhpSchema\Error::NON_FLOAT ]]
     ]
 ];
 

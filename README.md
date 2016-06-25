@@ -1,6 +1,6 @@
-# Configr
+# php-schema
 
-Lib for building and validating array structures.
+Lib for building and validating array structures in php.
 
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 [![Build Status](https://travis-ci.org/shrink0r/configr.svg?branch=master)](https://travis-ci.org/shrink0r/configr)

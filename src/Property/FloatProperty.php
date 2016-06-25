@@ -1,9 +1,9 @@
 <?php
 
-namespace Shrink0r\Configr\Property;
+namespace Shrink0r\PhpSchema\Property;
 
-use Shrink0r\Configr\Error;
-use Shrink0r\Configr\Ok;
+use Shrink0r\PhpSchema\Error;
+use Shrink0r\PhpSchema\Ok;
 
 class FloatProperty extends Property
 {

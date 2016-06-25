@@ -1,11 +1,11 @@
 <?php
 
-namespace Shrink0r\Configr\Tests\Property;
+namespace Shrink0r\PhpSchema\Tests\Property;
 
 use PHPUnit_Framework_TestCase;
-use Shrink0r\Configr\Ok;
-use Shrink0r\Configr\Property\Property;
-use Shrink0r\Configr\SchemaInterface;
+use Shrink0r\PhpSchema\Ok;
+use Shrink0r\PhpSchema\Property\Property;
+use Shrink0r\PhpSchema\SchemaInterface;
 
 class PropertyTest extends PHPUnit_Framework_TestCase
 {

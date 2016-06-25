@@ -1,12 +1,12 @@
 <?php
 
-namespace Shrink0r\Configr\Tests;
+namespace Shrink0r\PhpSchema\Tests;
 
 use PHPUnit_Framework_TestCase;
-use Shrink0r\Configr\Builder;
-use Shrink0r\Configr\Error;
-use Shrink0r\Configr\Ok;
-use Shrink0r\Configr\SchemaInterface;
+use Shrink0r\PhpSchema\Builder;
+use Shrink0r\PhpSchema\Error;
+use Shrink0r\PhpSchema\Ok;
+use Shrink0r\PhpSchema\SchemaInterface;
 
 class BuilderTest extends PHPUnit_Framework_TestCase
 {
@@ -234,7 +234,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Shrink0r\Configr\Exception
+     * @expectedException Shrink0r\PhpSchema\Exception
      */
     public function testTypeDivergenceArrayToScalarThrows()
     {
@@ -248,7 +248,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException Shrink0r\Configr\Exception
+     * @expectedException Shrink0r\PhpSchema\Exception
      */
     public function testTypeDivergenceScalarToArrayThrows()
     {

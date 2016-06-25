@@ -1,6 +1,6 @@
 <?php
 
-namespace Shrink0r\Configr;
+namespace Shrink0r\PhpSchema;
 
 /**
  * A builder is responsible for providing a convenient api to defining deeply nested array structures.

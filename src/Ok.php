@@ -1,6 +1,6 @@
 <?php
 
-namespace Shrink0r\Configr;
+namespace Shrink0r\PhpSchema;
 
 /**
  * Indicates the successfull execution of an operation; may wrap return data.

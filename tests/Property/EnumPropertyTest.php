@@ -1,14 +1,14 @@
 <?php
 
-namespace Shrink0r\Configr\Tests\Property;
+namespace Shrink0r\PhpSchema\Tests\Property;
 
 use PHPUnit_Framework_TestCase;
-use Shrink0r\Configr\Error;
-use Shrink0r\Configr\Exception;
-use Shrink0r\Configr\Ok;
-use Shrink0r\Configr\Factory;
-use Shrink0r\Configr\Property\EnumProperty;
-use Shrink0r\Configr\SchemaInterface;
+use Shrink0r\PhpSchema\Error;
+use Shrink0r\PhpSchema\Exception;
+use Shrink0r\PhpSchema\Ok;
+use Shrink0r\PhpSchema\Factory;
+use Shrink0r\PhpSchema\Property\EnumProperty;
+use Shrink0r\PhpSchema\SchemaInterface;
 
 class EnumPropertyTest extends PHPUnit_Framework_TestCase
 {
@@ -69,7 +69,7 @@ class EnumPropertyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Shrink0r\Configr\Exception
+     * @expectedException Shrink0r\PhpSchema\Exception
      * @expectedExceptionMessage Unable to resolve 'moep' to a custom type-definition.
      */
     public function testInvalidCustomType()
@@ -83,7 +83,7 @@ class EnumPropertyTest extends PHPUnit_Framework_TestCase
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException Shrink0r\Configr\Exception
+     * @expectedException Shrink0r\PhpSchema\Exception
      * @expectedExceptionMessage Given property type 'moep' has not been registered.
      */
     public function testInvalidPropertyType()

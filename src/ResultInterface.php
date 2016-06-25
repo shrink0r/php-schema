@@ -1,6 +1,6 @@
 <?php
 
-namespace Shrink0r\Configr;
+namespace Shrink0r\PhpSchema;
 
 /**
  * A result indicates the state resulting from a specific operation.

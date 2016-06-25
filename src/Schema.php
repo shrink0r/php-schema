@@ -1,9 +1,9 @@
 <?php
 
-namespace Shrink0r\Configr;
+namespace Shrink0r\PhpSchema;
 
-use Shrink0r\Configr\Property\PropertyInterface;
-use Shrink0r\Configr\ResultInterface;
+use Shrink0r\PhpSchema\Property\PropertyInterface;
+use Shrink0r\PhpSchema\ResultInterface;
 
 /**
  * Default implementation of the SchemaInterface.

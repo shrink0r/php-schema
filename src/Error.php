@@ -1,6 +1,6 @@
 <?php
 
-namespace Shrink0r\Configr;
+namespace Shrink0r\PhpSchema;
 
 /**
  * Indicates that one or more errors occured during the execution of an operation.

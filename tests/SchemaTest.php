@@ -1,12 +1,12 @@
 <?php
 
-namespace Shrink0r\Configr\Tests;
+namespace Shrink0r\PhpSchema\Tests;
 
 use PHPUnit_Framework_TestCase;
-use Shrink0r\Configr\Error;
-use Shrink0r\Configr\Exception;
-use Shrink0r\Configr\Factory;
-use Shrink0r\Configr\Schema;
+use Shrink0r\PhpSchema\Error;
+use Shrink0r\PhpSchema\Exception;
+use Shrink0r\PhpSchema\Factory;
+use Shrink0r\PhpSchema\Schema;
 
 class SchemaTest extends PHPUnit_Framework_TestCase
 {
@@ -49,7 +49,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Shrink0r\Configr\Exception
+     * @expectedException Shrink0r\PhpSchema\Exception
      * @expectedExceptionMessage Given property type 'foo' has not been registered.
      */
     public function testInvalidPropertyType()
@@ -67,7 +67,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException Shrink0r\Configr\Exception
+     * @expectedException Shrink0r\PhpSchema\Exception
      * @expectedExceptionMessage Given value for key 'customTypes' is not an array.
      */
     public function testInvalidCustomTypes()
@@ -84,7 +84,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException Shrink0r\Configr\Exception
+     * @expectedException Shrink0r\PhpSchema\Exception
      * @expectedExceptionMessage Missing valid value for 'properties' key within given schema.
      */
     public function testMissingPropertiesKey()

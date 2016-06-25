@@ -1,6 +1,6 @@
 <?php
 
-namespace Shrink0r\Configr\Property;
+namespace Shrink0r\PhpSchema\Property;
 
 interface PropertyInterface
 {

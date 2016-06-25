@@ -1,5 +1,6 @@
 {
-    "name": "shrink0r/configr",
+    "name": "shrink0r/php-schema",
+    "description": "Lib for building and validating array structures in php.",
     "license": "MIT",
     "authors": [
         {
@@ -9,12 +10,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Shrink0r\\Configr\\": "src/"
+            "Shrink0r\\PhpSchema\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Shrink0r\\Configr\\Tests\\": "tests/"
+            "Shrink0r\\PhpSchema\\Tests\\": "tests/"
         }
     },
     "require": {
