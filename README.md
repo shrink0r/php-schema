@@ -288,11 +288,11 @@ $schemaDefinition = [
 
 ## Requirements and installation
 
-- PHP v5.5+
+- PHP v5.6+
 
 Install the library via [Composer](http://getcomposer.org/):
 
-```./composer.phar require shrink0r/workflux [optional version]```
+```./composer.phar require shrink0r/php-schema [optional version]```
 
 Adding it manually as a vendor library requirement to the `composer.json` file
 of your project works as well:
@@ -300,7 +300,7 @@ of your project works as well:
 ```json
 {
     "require": {
-        "shrink0r/workflux": "~0.5"
+        "shrink0r/php-schema": "master@dev"
     }
 }
 ```
