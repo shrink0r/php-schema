@@ -305,7 +305,7 @@ of your project works as well:
 }
 ```
 
-Alternatively, you can download a release archive from the [github releases](releases).
+Alternatively, you can download a release archive from the [github releases](/releases).
 
 ## Documentation
 
