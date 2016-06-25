@@ -119,7 +119,7 @@ Alternatively, you can download a release archive from the [github releases](htt
 
 At the moment there are some basic usage example from above and some additional [documentation here](docs/documentation.md).
 The brave may look into the `tests` folder for more insights.
-Feel free to ask via IRC or the [issue tracker](/issues).
+Feel free to ask via IRC or the [issue tracker](https://github.com/shrink0r/php-schema/issues).
 
 ## Community
 
