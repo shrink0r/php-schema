@@ -25,7 +25,7 @@ $schemaDefinition = [
     'type' => 'assoc',
     'properties' => [
         "post_id" => [ "type" => "int" ],
-        "rating" => [ "type" => float ],
+        "rating" => [ "type" => "float" ],
         "tags" => [
             "type" => "sequence",
             "one_of" => [ "string" ]
@@ -33,8 +33,8 @@ $schemaDefinition = [
         "coords" => [
             "type" => "assoc",
             "properties" => [
-                "lon" => [ "type" => float ],
-                "lat" => [ "type" => float ]
+                "lon" => [ "type" => "float" ],
+                "lat" => [ "type" => "float" ]
             ]
         ]
     ]
