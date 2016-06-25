@@ -1,4 +1,4 @@
-# php-schema documentation
+# Documentation
 
 ## Add/override properties
 
