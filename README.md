@@ -286,3 +286,56 @@ $schemaDefinition = [
 ]
 ```
 
+## Requirements and installation
+
+- PHP v5.5+
+
+Install the library via [Composer](http://getcomposer.org/):
+
+```./composer.phar require shrink0r/workflux [optional version]```
+
+Adding it manually as a vendor library requirement to the `composer.json` file
+of your project works as well:
+
+```json
+{
+    "require": {
+        "shrink0r/workflux": "~0.5"
+    }
+}
+```
+
+Alternatively, you can download a release archive from the [github releases](releases).
+
+## Documentation
+
+At the moment there are some basic usage example from above.
+The brave may look into the `tests` folder for more insights.
+Feel free to ask via IRC or the [issue tracker](/issues).
+
+## Community
+
+None, but you may join the freenode IRC
+[`irc://irc.freenode.org/honeybee`](irc://irc.freenode.org/honeybee) channel, where a some folks that use this library might be online. :-)
+
+## Contributing
+
+Please contribute by [forking](http://help.github.com/forking/) and sending a [pull request](http://help.github.com/pull-requests/). More information can be found in the [`CONTRIBUTING.md`](CONTRIBUTING.md) file. The authors and contributors are mentioned in the [github contributors graph](https://github.com/shrink0r/php-schema/graphs/contributors) of this repository.
+
+The code tries to adhere to the following PHP-FIG standards: [PSR-4][6], [PSR-1][7] and [PSR-2][8].
+
+## Changelog
+
+See [`CHANGELOG.md`](CHANGELOG.md) for more information about changes.
+
+## License
+
+This project is MIT licensed. See the [linked license](LICENSE.md) for details.
+
+* Total Composer Downloads: [![Composer Downloads](https://poser.pugx.org/shrink0r/php-schema/d/total.png)](https://packagist.org/packages/shrink0r/php-schema)
+
+[6]: http://www.php-fig.org/psr/psr-4/ "PSR-4 Autoloading Standard"
+[7]: http://www.php-fig.org/psr/psr-1/ "PSR-1 Basic Coding Standard"
+[8]: http://www.php-fig.org/psr/psr-2/ "PSR-2 Coding Style Guide"
+
+
