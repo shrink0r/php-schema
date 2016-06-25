@@ -37,7 +37,10 @@ $givenData = [
 
 $expectedErrors = [
     'transports' => [
-        'sync' => [ 'class' => [ Shrink0r\PhpSchema\Error::MISSING_KEY, Shrink0r\PhpSchema\Error::MISSING_VALUE ] ],
+        'sync' => [
+            'class' => [ Shrink0r\PhpSchema\Error::MISSING_KEY, Shrink0r\PhpSchema\Error::MISSING_VALUE ],
+            'classs' => [ Shrink0r\PhpSchema\Error::UNEXPECTED_KEY ]
+        ],
         'async' => [ 'class' => [ Shrink0r\PhpSchema\Error::MISSING_VALUE ] ],
         'pubsub' => [ 'class' => [ Shrink0r\PhpSchema\Error::NON_SCALAR ] ]
     ]

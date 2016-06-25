@@ -200,12 +200,14 @@ class Schema implements SchemaInterface
     {
         $errors = [];
 
-        if (isset($this->properties[':any_name:'])) {
-            foreach (array_diff_key($data, $this->properties) as $key => $value) {
+        foreach (array_diff_key($data, $this->properties) as $key => $value) {
+            if (isset($this->properties[':any_name:'])) {
                 $result = $this->properties[':any_name:']->validate($value);
                 if ($result instanceof Error) {
                     $errors[$key] = $result->unwrap();
                 }
+            } else {
+                $errors[$key] = [ Error::UNEXPECTED_KEY ];
             }
         }
 

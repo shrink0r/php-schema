@@ -17,8 +17,8 @@ The schema is given an (array)description of the data-structure, that shall be v
 ```php
 <?php
 
-use Shrink0r\Configr\Factory;
-use Shrink0r\Configr\Schema;
+use Shrink0r\PhpSchema\Factory;
+use Shrink0r\PhpSchema\Schema;
 
 // define a schema
 $schemaDefinition = [
@@ -51,7 +51,7 @@ A builder instance is created and using it's fluent api some data is set accordi
 ```php 
 <?php
 
-use Shrink0r\Configr\Builder;
+use Shrink0r\PhpSchema\Builder;
 
 $builder = new Builder($schema);
 
@@ -70,7 +70,7 @@ The builder's build method is invoked passing in some extraData, that will be me
 ```php
 <?php
 
-use Shrink0r\Configr\Ok;
+use Shrink0r\PhpSchema\Ok;
 
 $extraData = [ 'post_id' => 42, 'rating' => 0.8 ];
 $result = $builder->build($extraData);

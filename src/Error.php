@@ -18,6 +18,11 @@ class Error implements ResultInterface
     const MISSING_VALUE = 'missing_value';
 
     /**
+     * @const UNEXPECTED_KEY Indicates an unexpected key, which hasn't been defined within the schema
+     */
+    const UNEXPECTED_KEY = 'unexpected_key';
+
+    /**
      * @const NON_SCALAR Indicates that an expected scalar value is something different.
      */
     const NON_SCALAR = 'non_scalar';
