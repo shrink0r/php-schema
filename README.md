@@ -24,7 +24,7 @@ use Shrink0r\Configr\Schema;
 $schemaDefinition = [
     'type' => 'assoc',
     'properties' => [
-        "post_id" => [ "type": "int" ],
+        "post_id" => [ "type" => "int" ],
         "rating" => [ "type" => float ],
         "tags" => [
             "type" => "sequence",
