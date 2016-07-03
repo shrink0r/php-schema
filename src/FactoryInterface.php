@@ -3,7 +3,6 @@
 namespace Shrink0r\PhpSchema;
 
 use Shrink0r\PhpSchema\Property\PropertyInterface;
-use Shrink0r\PhpSchema\SchemaInterface;
 
 interface FactoryInterface
 {
@@ -25,14 +24,14 @@ interface FactoryInterface
      * @param SchemaInterface $schema
      * @param PropertyInterface $parent
      *
-     * @return PropertyInterface[] An array of properties where the property names are used as coresponding keys.
+     * @return PropertyInterface[] An array of properties where the property names are used as corresponding keys.
      */
     public function createProperties(array $definitions, SchemaInterface $schema, PropertyInterface $parent = null);
 
     /**
      * Creates a property from the given definition.
      *
-     * @param mixed[] $definitions
+     * @param mixed[] $definition
      * @param SchemaInterface $schema
      * @param PropertyInterface $parent
      *

@@ -173,7 +173,8 @@ class BuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('hello world!', $stack->rewind()['foo']['bar']->valueOf('message'));
     }
 
-    public function testEndNesting() {
+    public function testEndNesting()
+    {
         $builder = new Builder();
         $result = $builder
             ->firstLevel1
@@ -234,7 +235,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Shrink0r\PhpSchema\Exception
+     * @expectedException \Shrink0r\PhpSchema\Exception
      */
     public function testTypeDivergenceArrayToScalarThrows()
     {
@@ -248,7 +249,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException Shrink0r\PhpSchema\Exception
+     * @expectedException \Shrink0r\PhpSchema\Exception
      */
     public function testTypeDivergenceScalarToArrayThrows()
     {

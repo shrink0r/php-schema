@@ -3,7 +3,7 @@
 namespace Shrink0r\PhpSchema;
 
 /**
- * Indicates that one or more errors occured during the execution of an operation.
+ * Indicates that one or more errors occurred during the execution of an operation.
  */
 class Error implements ResultInterface
 {
@@ -58,7 +58,7 @@ class Error implements ResultInterface
     const INVALID_CHOICE = 'invalid_choice';
 
     /**
-     * @const INVALID_CHOICE Indicates that a provided class value points to a non-existant class.
+     * @const INVALID_CHOICE Indicates that a provided class value points to a non-existent class.
      */
     const CLASS_NOT_EXISTS = 'class_not_exists';
 

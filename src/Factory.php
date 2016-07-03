@@ -58,10 +58,10 @@ class Factory implements FactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createProperties(array $propDefintions, SchemaInterface $schema, PropertyInterface $parent = null)
+    public function createProperties(array $propDefinitions, SchemaInterface $schema, PropertyInterface $parent = null)
     {
         $properties = [];
-        foreach ($propDefintions as $name => $definition) {
+        foreach ($propDefinitions as $name => $definition) {
             $definition['name'] = $name;
             $properties[$name] = $this->createProperty($definition, $schema, $parent);
         }

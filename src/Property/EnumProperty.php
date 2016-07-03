@@ -2,9 +2,9 @@
 
 namespace Shrink0r\PhpSchema\Property;
 
-use Shrink0r\PhpSchema\Error;
 use Shrink0r\PhpSchema\Exception;
 use Shrink0r\PhpSchema\Ok;
+use Shrink0r\PhpSchema\ResultInterface;
 use Shrink0r\PhpSchema\SchemaInterface;
 
 class EnumProperty extends Property
@@ -38,6 +38,8 @@ class EnumProperty extends Property
      */
     public function validate($value)
     {
+        $result = Ok::unit();
+
         foreach ($this->allowedTypes as $type) {
             $typeChecker = preg_match('/^&/', $type) ? $this->getCustomType($type) : $this->createProperty($type);
             $result = $typeChecker->validate($value);

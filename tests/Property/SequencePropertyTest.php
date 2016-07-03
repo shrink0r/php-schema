@@ -4,7 +4,6 @@ namespace Shrink0r\PhpSchema\Tests\Property;
 
 use PHPUnit_Framework_TestCase;
 use Shrink0r\PhpSchema\Error;
-use Shrink0r\PhpSchema\Exception;
 use Shrink0r\PhpSchema\Ok;
 use Shrink0r\PhpSchema\Factory;
 use Shrink0r\PhpSchema\Property\SequenceProperty;
@@ -72,7 +71,7 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Shrink0r\PhpSchema\Exception
+     * @expectedException \Shrink0r\PhpSchema\Exception
      * @expectedExceptionMessage Unable to resolve 'moep' to a custom type-definition.
      */
     public function testInvalidCustomType()
@@ -86,7 +85,7 @@ class SequencePropertyTest extends PHPUnit_Framework_TestCase
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException Shrink0r\PhpSchema\Exception
+     * @expectedException \Shrink0r\PhpSchema\Exception
      * @expectedExceptionMessage Given property type 'moep' has not been registered.
      */
     public function testInvalidPropertyType()

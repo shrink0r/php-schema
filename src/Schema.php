@@ -3,7 +3,6 @@
 namespace Shrink0r\PhpSchema;
 
 use Shrink0r\PhpSchema\Property\PropertyInterface;
-use Shrink0r\PhpSchema\ResultInterface;
 
 /**
  * Default implementation of the SchemaInterface.
@@ -43,7 +42,7 @@ class Schema implements SchemaInterface
     /**
      * @param string $name The name of the schema.
      * @param mixed[] $schema Must contain keys for 'type', 'properties' and 'customTypes'.
-     * @param Factory $factory Will be used to create objects while processing the given schema.
+     * @param FactoryInterface $factory Will be used to create objects while processing the given schema.
      * @param PropertyInterface $parent If created below a prop (assoc, etc.) this will hold that property.
      */
     public function __construct($name, array $schema, FactoryInterface $factory, PropertyInterface $parent = null)
@@ -54,8 +53,8 @@ class Schema implements SchemaInterface
         $this->type = $schema['type'];
 
         list($customTypes, $properties) = $this->verifySchema($schema);
-        foreach ($customTypes as $name => $definition) {
-            $this->customTypes[$name] = $this->factory->createSchema($name, $definition, $parent);
+        foreach ($customTypes as $typeName => $definition) {
+            $this->customTypes[$typeName] = $this->factory->createSchema($typeName, $definition, $parent);
         }
         $this->properties = $this->factory->createProperties($properties, $this, $parent);
     }
@@ -141,7 +140,7 @@ class Schema implements SchemaInterface
     }
 
     /**
-     * Validates the values of all explictly defined schema properties.
+     * Validates the values of all explicitly defined schema properties.
      *
      * @param array $data
      *
@@ -178,7 +177,7 @@ class Schema implements SchemaInterface
         $key = $property->getName();
         $value = isset($data[$key]) ? $data[$key] : null;
 
-        if (is_null($value) && $property->isRequired()) {
+        if ($value === null && $property->isRequired()) {
             if (!array_key_exists($key, $data)) {
                 $errors[] = Error::MISSING_KEY;
             }

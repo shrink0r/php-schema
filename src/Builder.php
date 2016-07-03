@@ -32,7 +32,7 @@ class Builder implements BuilderInterface, \ArrayAccess
     public function build(array $defaults = [])
     {
         $builtConfig = $defaults;
-        foreach($this->data as $key => $value) {
+        foreach ($this->data as $key => $value) {
             $builtConfig[$key] = $value instanceof BuilderInterface
                 ? $value->build(isset($defaults[$key]) ? $defaults[$key] : [])->unwrap()
                 : $value;
@@ -150,7 +150,7 @@ class Builder implements BuilderInterface, \ArrayAccess
     {
         if (is_array($value)) {
             $builder = new Builder();
-            foreach($value as $k => $v) {
+            foreach ($value as $k => $v) {
                 $builder->{$k} = $v;
             }
             $value = $builder;
@@ -159,7 +159,7 @@ class Builder implements BuilderInterface, \ArrayAccess
         if (isset($this->data[$key])) {
             $valueIsBuilder = $value instanceof BuilderInterface;
             $dataIsBuilder = $this->data[$key] instanceof BuilderInterface;
-            if($dataIsBuilder !== $valueIsBuilder) {
+            if ($dataIsBuilder !== $valueIsBuilder) {
                 throw new Exception("Trying to overwrite value at '$key' with incompatible data");
             }
         }
@@ -170,6 +170,7 @@ class Builder implements BuilderInterface, \ArrayAccess
      * Tells if the given key exists.
      *
      * @param string $key
+     * @return bool
      */
     public function __isset($key)
     {
@@ -187,11 +188,11 @@ class Builder implements BuilderInterface, \ArrayAccess
     }
 
     /**
-     * Assign a given value to the given key relative to the buider's current position.
+     * Assign a given value to the given key relative to the builder's current position.
      * Does not rewind the builder and returns self, so fluent assignment of values is possible.
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed $args
      *
      * @return BuilderInterface Returns self
      */

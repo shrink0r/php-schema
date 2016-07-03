@@ -2,6 +2,9 @@
 
 namespace Shrink0r\PhpSchema\Property;
 
+use Shrink0r\PhpSchema\ResultInterface;
+use Shrink0r\PhpSchema\SchemaInterface;
+
 interface PropertyInterface
 {
     /**

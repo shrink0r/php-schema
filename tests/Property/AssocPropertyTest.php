@@ -4,7 +4,6 @@ namespace Shrink0r\PhpSchema\Tests\Property;
 
 use PHPUnit_Framework_TestCase;
 use Shrink0r\PhpSchema\Error;
-use Shrink0r\PhpSchema\Exception;
 use Shrink0r\PhpSchema\Factory;
 use Shrink0r\PhpSchema\Ok;
 use Shrink0r\PhpSchema\Property\AssocProperty;
@@ -80,7 +79,7 @@ class AssocPropertyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Shrink0r\PhpSchema\Exception
+     * @expectedException \Shrink0r\PhpSchema\Exception
      * @expectedExceptionMessage Missing required key 'properties' within assoc definition.
      */
     public function testMissingProperties()

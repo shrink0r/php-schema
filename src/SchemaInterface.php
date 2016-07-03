@@ -40,7 +40,7 @@ interface SchemaInterface
     /**
      * Returns the schema's properties.
      *
-     * @return PropertyInterface[]
+     * @return Property\PropertyInterface[]
      */
     public function getProperties();
 

@@ -4,7 +4,7 @@ namespace Shrink0r\PhpSchema\Property;
 
 use Shrink0r\PhpSchema\Error;
 use Shrink0r\PhpSchema\Exception;
-use Shrink0r\PhpSchema\Schema;
+use Shrink0r\PhpSchema\ResultInterface;
 use Shrink0r\PhpSchema\SchemaInterface;
 
 class AssocProperty extends Property

@@ -105,6 +105,8 @@ class BuilderStack implements BuilderInterface, \ArrayAccess
      *
      * @param string $key
      * @param mixed $value
+     *
+     * @return $this
      */
     public function offsetSet($key, $value)
     {
@@ -159,6 +161,7 @@ class BuilderStack implements BuilderInterface, \ArrayAccess
      * Tells if the given key exists in the builder at the top of the stack.
      *
      * @param string $key
+     * @return bool
      */
     public function __isset($key)
     {
@@ -170,7 +173,7 @@ class BuilderStack implements BuilderInterface, \ArrayAccess
      *
      * @param string $key
      */
-    public function  __unset($key)
+    public function __unset($key)
     {
         unset($this->last()->{$key});
     }
@@ -181,7 +184,7 @@ class BuilderStack implements BuilderInterface, \ArrayAccess
      * @param string $key
      * @param mixed[] $args
      *
-     * @return BuilderInterface Returns self
+     * @return $this
      */
     public function __call($key, array $args = [])
     {

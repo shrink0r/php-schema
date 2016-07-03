@@ -3,7 +3,7 @@
 namespace Shrink0r\PhpSchema;
 
 /**
- * Indicates the successfull execution of an operation; may wrap return data.
+ * Indicates the successful execution of an operation; may wrap return data.
  */
 class Ok implements ResultInterface
 {

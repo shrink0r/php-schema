@@ -12,7 +12,7 @@ interface BuilderInterface
      *
      * @param mixed[] $defaults
      *
-     * @return array Returns an array reflecting the builder's current state with merged defaults.
+     * @return ResultInterface Returns an array reflecting the builder's current state with merged defaults.
      */
     public function build(array $defaults = []);
 
