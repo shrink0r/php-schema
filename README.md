@@ -6,7 +6,7 @@
 [![Build Status](https://secure.travis-ci.org/shrink0r/php-schema.png)][2]
 [![Coverage Status](https://coveralls.io/repos/shrink0r/php-schema/badge.png)][3]
 [![Code Climate](https://codeclimate.com/github/shrink0r/php-schema/badges/gpa.svg)](https://codeclimate.com/github/shrink0r/php-schema)
-[![Dependency Status](https://www.versioneye.com/user/projects/576dcc347bc681004a3f9b68/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/576dcc347bc681004a3f9b68)[4]
+[![Dependency Status](https://www.versioneye.com/user/projects/576dcc347bc681004a3f9b68/badge.svg?style=flat-square)][4]
 [![Stories in Ready](https://badge.waffle.io/shrink0r/php-schema.png?label=ready&title=Ready)][9]
 [![Total Composer Downloads](https://poser.pugx.org/shrink0r/php-schema/d/total.png)][1] 
 
