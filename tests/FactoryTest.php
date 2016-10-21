@@ -63,7 +63,8 @@ class FactoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Shrink0r\PhpSchema\Exception
-     * @expectedExceptionMessage Class 'Shrink0r\PhpSchema\Tests\Void' that has been registered for type 'scalar' does not exist
+     * @expectedExceptionMessage
+        Class 'Shrink0r\PhpSchema\Tests\Void' that has been registered for type 'scalar' does not exist
      */
     public function testCreateWithNonExistingClass()
     {
@@ -72,7 +73,8 @@ class FactoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Shrink0r\PhpSchema\Exception
-     * @expectedExceptionMessage Missing required key 'type' within property definition.
+     * @expectedExceptionMessage
+        Missing required key 'type' within property definition.
      */
     public function testCreatePropertyWithMissingType()
     {
@@ -83,7 +85,8 @@ class FactoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Shrink0r\PhpSchema\Exception
-     * @expectedExceptionMessage Missing required key 'name' within property definition.
+     * @expectedExceptionMessage
+        Missing required key 'name' within property definition.
      */
     public function testCreatePropertyWithMissingName()
     {
@@ -94,7 +97,8 @@ class FactoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Shrink0r\PhpSchema\Exception
-     * @expectedExceptionMessage Given property type 'foo' has not been registered.
+     * @expectedExceptionMessage
+        Given property type 'foo' has not been registered.
      */
     public function testCreatePropertyWithNonRegisteredType()
     {
