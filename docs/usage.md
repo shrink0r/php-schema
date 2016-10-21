@@ -82,4 +82,4 @@ if ($result instanceof Ok) {
 
 ## Finally
 
-The above example is suitable for simple cases and gives an idea of the library's basic crud. When trying to realize complex schemas it may be helpful to extend or override some of the library's default behavior. See [here](/documentation.md) for further details.
+The above example is suitable for simple cases and gives an idea of the library's basic crud. When trying to realize complex schemas it may be helpful to extend or override some of the library's default behavior. See [here](https://github.com/shrink0r/php-schema/blob/master/docs/documentation.md) for further details.
