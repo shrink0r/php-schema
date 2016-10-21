@@ -126,14 +126,14 @@ class Builder implements BuilderInterface, \ArrayAccess
     public function __get($key)
     {
         if (!isset($this->data[$key])) {
-            $this->data[$key] = new Builder();
+            $this->data[$key] = new Builder;
         }
 
         if (!$this->data[$key] instanceof BuilderInterface) {
             throw new Exception("Can not access scalar value at '$key' with accessor. Use valueOf() instead");
         }
 
-        return new BuilderStack([$this, $this->data[$key]]);
+        return new BuilderStack([ $this, $this->data[$key] ]);
     }
 
     /**
@@ -149,7 +149,7 @@ class Builder implements BuilderInterface, \ArrayAccess
     public function __set($key, $value)
     {
         if (is_array($value)) {
-            $builder = new Builder();
+            $builder = new Builder;
             foreach ($value as $k => $v) {
                 $builder->{$k} = $v;
             }
