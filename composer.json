@@ -2,6 +2,12 @@
     "name": "shrink0r/php-schema",
     "description": "Lib for building and validating array structures in php.",
     "keywords": [ "schema", "validation" ],
+    "support": {
+        "issues": "https://github.com/shrink0r/php-schema/issues",
+        "wiki": "https://github.com/shrink0r/php-schema/wiki",
+        "irc": "irc://irc.freenode.org/honeybee",
+        "source": "https://github.com/shrink0r/php-schema"
+    },
     "license": "MIT",
     "require": {
         "php": ">=5.6.1"

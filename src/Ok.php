@@ -23,7 +23,7 @@ class Ok implements ResultInterface
     {
         $class = static::class;
 
-        return new $class($data ?: []);
+        return new $class($data);
     }
 
     /**

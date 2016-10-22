@@ -153,7 +153,11 @@ class Schema implements SchemaInterface
         foreach (array_diff_key($this->properties, [ ':any_name:' => 1 ]) as $key => $property) {
             $result = $this->selectValue($property, $data);
             if ($result instanceof Ok) {
-                $result = $property->validate($result->unwrap());
+                $value = $result->unwrap();
+                if ($value === null) {
+                    continue;
+                }
+                $result = $property->validate($value);
             }
             if ($result instanceof Error) {
                 $errors[$key] = $result->unwrap();
@@ -175,7 +179,7 @@ class Schema implements SchemaInterface
     {
         $errors = [];
         $key = $property->getName();
-        $value = isset($data[$key]) ? $data[$key] : null;
+        $value = array_key_exists($key, $data) ? $data[$key] : null;
 
         if ($value === null && $property->isRequired()) {
             if (!array_key_exists($key, $data)) {
@@ -201,6 +205,12 @@ class Schema implements SchemaInterface
 
         foreach (array_diff_key($data, $this->properties) as $key => $value) {
             if (isset($this->properties[':any_name:'])) {
+                if ($value === null) {
+                    if ($this->properties[':any_name:']->isRequired()) {
+                        $errors[$key] = [ Error::MISSING_VALUE ];
+                    }
+                    continue;
+                }
                 $result = $this->properties[':any_name:']->validate($value);
                 if ($result instanceof Error) {
                     $errors[$key] = $result->unwrap();
