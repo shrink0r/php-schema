@@ -60,7 +60,11 @@ class EnumProperty extends Property
      */
     protected function getCustomType($type)
     {
-        $customTypes = $this->getSchema()->getCustomTypes();
+        $root = $this;
+        while ($cur = $root->getParent()) {
+            $root = $cur;
+        }
+        $customTypes = $root->getSchema()->getCustomTypes();
         $type = ltrim($type, '&');
 
         if (isset($customTypes[$type])) {
