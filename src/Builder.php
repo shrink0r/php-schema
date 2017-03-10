@@ -133,7 +133,8 @@ class Builder implements BuilderInterface, \ArrayAccess
             throw new Exception("Can not access scalar value at '$key' with accessor. Use valueOf() instead");
         }
 
-        return new BuilderStack([ $this, $this->data[$key] ]);
+        $stackImplementor = $this->getStackImplementor();
+        return new $stackImplementor([ $this, $this->data[$key] ]);
     }
 
     /**
@@ -203,5 +204,15 @@ class Builder implements BuilderInterface, \ArrayAccess
         }
 
         return $this;
+    }
+
+    /**
+     * Specify the stack implementor to use
+     *
+     * @return string
+     */
+    protected function getStackImplementor()
+    {
+        return BuilderStack::CLASS;
     }
 }

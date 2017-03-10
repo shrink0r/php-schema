@@ -65,7 +65,7 @@ class BuilderStack implements BuilderInterface, \ArrayAccess
         if (count($this->builders) === 1) {
             return $this->builders[0];
         }
-        return new BuilderStack(array_slice($this->builders, 0, -1));
+        return new static(array_slice($this->builders, 0, -1));
     }
 
     /**
@@ -136,13 +136,13 @@ class BuilderStack implements BuilderInterface, \ArrayAccess
     public function __get($key)
     {
         $value = $this->last()->{$key};
-        if ($value instanceof self) {
+        if ($value instanceof static) {
             if ($this->last() !== $value->first()) {
                 throw new Exception('Trying to merge incompatible BuilderStacks');
             }
-            return new BuilderStack(array_merge($this->builders, array_slice($value->builders, 1)));
+            return new static(array_merge($this->builders, array_slice($value->builders, 1)));
         } else {
-            return new BuilderStack(array_merge($this->builders, [$value]));
+            return new static(array_merge($this->builders, [$value]));
         }
     }
 
